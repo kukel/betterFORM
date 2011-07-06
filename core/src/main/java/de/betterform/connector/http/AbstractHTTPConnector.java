@@ -288,6 +288,10 @@ public class AbstractHTTPConnector extends AbstractConnector {
                     password = headervalue;
                 }else if(headername.equals("realm")){
                     realm = headervalue;
+                }else if(headername.equalsIgnoreCase("content-length")){
+                    // Ignore this; it incorrectly overwrites the real values set by configureRequest
+                }else if(headername.equalsIgnoreCase("content-type")){
+                    // Ignore this; it incorrectly overwrites the real values set by configureRequest
                 }else {
                     if (headersToAdd.containsKey(headername)) {
                         String formerValue = (String) headersToAdd.get(headername);

@@ -68,6 +68,10 @@ public class CrossContextFilter implements Filter {
             log("CrossContextFilter:doFilter()");
         }
 
+        if (context==null) {
+            setContext();
+        }
+
         // Create wrappers for the request and response objects.
         // Using these, you can extend the capabilities of the
         // request and response, for example, allow setting parameters
@@ -82,6 +86,9 @@ public class CrossContextFilter implements Filter {
         // If there was a problem, we want to rethrow it if it is
         // a known type, otherwise log it.
         if (problem != null) {
+
+        	jul.severe( this.getStackTrace(problem));
+
             if (problem instanceof ServletException) {
                 throw (ServletException) problem;
             }
@@ -124,6 +131,21 @@ public class CrossContextFilter implements Filter {
                 log("CrossContextFilter: Initializing filter");
             }
         }
+
+        setContext();
+
+        // If not set "/repeater" is used!
+        if (filterConfig.getInitParameter("xforms.engine.servlet") != null) {
+            this.xformsServlet = filterConfig.getInitParameter("xforms.engine.servlet");
+        } else {
+            this.xformsServlet = "/repeater";
+        }
+
+        this.xformsResources = filterConfig.getInitParameter("xforms.engine.resources");
+    }
+
+    private void setContext() {
+
         String xformsContext = filterConfig.getInitParameter("xforms.engine.webcontext");
 
         // get betterFORM's context dispatcher
@@ -161,9 +183,19 @@ public class CrossContextFilter implements Filter {
         Throwable problem = null;
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         // Dispatch request to betterForm.
-        log("Zaphod: Request" + httpRequest.getRequestURI());
+        log("Zaphod: RequestURI=" + httpRequest.getRequestURI());
         try {
-            if (httpRequest.getRequestURI().startsWith(xformsResources)) {
+        	if ("GET".equalsIgnoreCase(httpRequest.getMethod())
+        			&& request.getParameter("submissionResponse") != null) {
+
+                RequestDispatcher dispatcher = context.getRequestDispatcher(xformsServlet);
+                dispatcher.forward(
+                		new MyHttpServletRequestWrapper((HttpServletRequest)request),
+                		response);
+
+            } else if (httpRequest.getRequestURI().startsWith(xformsResources)) {
+            	log(".. resourceForward");
+           	 // eg /fabdocx/upload/forward/Flux/call/plaincall/Flux.dispatchEvent.dwr
                 resourceForward(request, response);
             } else if (httpRequest.getHeader("betterform-internal") != null) {
                 log("Zaphod: betterForm Request! Calling other filter(s) an setting content-type to 'text/xml' ");
@@ -171,9 +203,13 @@ public class CrossContextFilter implements Filter {
                 log("Zaphod: Request Content Type: " + response.getContentType());
                 response.setContentType("text/xml");
             } else {
+            	log(".. formForward");
                 formForward(chain, request, response);
             }
         } catch (Throwable t) {
+
+        	jul.severe( this.getStackTrace(t));
+
             /* If an exception is thrown somewhere down the filter chain,
                we still want to execute our after processing, and then
                rethrow the problem after that.
@@ -195,9 +231,14 @@ public class CrossContextFilter implements Filter {
         */
         BufferedHttpServletResponseWrapper bufferedResponse = new BufferedHttpServletResponseWrapper((HttpServletResponse) response);
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        log("Zaphod: Calling other filter(s) and sending the result to betterForm: " + httpRequest.getContentType());
+        log("\n\n Zaphod: " + httpRequest.getContentType());
+
+        log("Zaphod: Calling other filter(s) ");
         chain.doFilter(request, bufferedResponse);
+
+        log("Zaphod: .. back from other filter(s)  " );
         if (isXML(bufferedResponse)) {
+            log("Zaphod: .. sending the result to betterForm" );
             // create and set input stream from buffer for betterFORM
             RequestDispatcher dispatcher = context.getRequestDispatcher(xformsServlet);
             request.setAttribute(XFORMSINPUTSTREAM, bufferedResponse.getInputStream());
@@ -205,10 +246,17 @@ public class CrossContextFilter implements Filter {
             request.setAttribute(FORWARD_URL, httpRequest.getRequestURL().toString());
 
             // forward the orignal request and response to betterFORM's context.
-            dispatcher.forward(request, response);
+            dispatcher.forward(
+            		new MyHttpServletRequestWrapper((HttpServletRequest)request),
+            		response);
         } else {
-            chain.doFilter(request, response);
+            log("Zaphod: .. but its not XML" );
+            //chain.doFilter(request, response);
+
+        	((HttpServletResponse) response).getOutputStream().write(
+        			bufferedResponse.getData() );
         }
+        log("Zaphod: ALL DONE \n\n\n" );
     }
 
 
@@ -224,6 +272,7 @@ public class CrossContextFilter implements Filter {
             log("Zaphod: Sending resource directly '" + uri +"' file from Jar");
             sendResource(response, uri);
         } else {
+            log("Zaphod: invoking dispatcher.forward ");
             RequestDispatcher dispatcher = context.getRequestDispatcher(uri);
             dispatcher.forward(request, response);
         }
@@ -248,11 +297,13 @@ public class CrossContextFilter implements Filter {
           %q{application/xml application/xhtml+xml text/xml}.include? response.content_type
         */
         String type = response.getContentType();
-        if (type.compareToIgnoreCase("application/xml") == 0) {
+        log("comparing content type: " + type);
+        // application/xhtml+xml;charset=ISO-8859-1
+        if (type.startsWith("application/xml")) {
             return true;
-        } else if (type.compareToIgnoreCase("text/xml") == 0) {
+        } else if (type.startsWith("text/xml") ) {
             return true;
-        } else if (type.compareToIgnoreCase("application/xhtml+xml") == 0) {
+        } else if (type.startsWith("application/xhtml+xml") ) {
             return true;
         } else {
             return false;

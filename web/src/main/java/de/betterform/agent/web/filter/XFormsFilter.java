@@ -472,7 +472,7 @@ public class XFormsFilter implements Filter {
      * @param response the Servlet response
      * @throws IOException if something basic goes wrong
      */
-    protected void doSubmissionReplaceAll(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public static void doSubmissionReplaceAll(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession(false);
         WebProcessor webProcessor = WebUtil.getWebProcessor(request, session);
         if (session != null && webProcessor != null) {

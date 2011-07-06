@@ -19,7 +19,7 @@ import org.apache.xerces.dom.events.EventImpl;
  * @author Ulrich Nicolas Liss&eacute;
  * @version $Id: XercesXMLEvent.java 3576 2008-10-09 15:46:30Z lars $
  */
-public class XercesXMLEvent extends EventImpl implements XMLEvent {
+public class XercesXMLEvent extends com.sun.org.apache.xerces.internal.dom.events.EventImpl implements XMLEvent {
 
     /**
      * The contextual information.
