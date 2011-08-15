@@ -90,12 +90,20 @@
     -->
 
 
+    <repositories>
+    	<repository>
+    		<id>third-party</id>
+    		<name>JBoss Third-party releases</name>
+    		<url>https://repository.jboss.org/nexus/content/groups/public-thirdparty-releases/</url>
+    	</repository>
+    </repositories>
+    <pluginRepositories>
+    	<pluginRepository>
+    		<id>java.net</id>
+    		<url>http://download.java.net/maven/2/</url>
+    	</pluginRepository>
+    </pluginRepositories>
     <dependencies>
-<dependency>
-<groupId>de.betterform</groupId>
-<artifactId>betterform-core</artifactId>
-<version>3.2.0-prerelease</version>
-</dependency>
 <dependency>
 <groupId>org.directwebremoting.dwr</groupId>
 <artifactId>dwr</artifactId>
@@ -129,17 +137,17 @@
 <version>1.2.1</version>
 </dependency>
 <dependency>
-<groupId>httpcomponents</groupId>
+<groupId>org.apache.httpcomponents</groupId>
 <artifactId>httpcomponents-core</artifactId>
 <version>4.1</version>
 </dependency>
 <dependency>
-<groupId>httpcomponents</groupId>
+<groupId>org.apache.httpcomponents</groupId>
 <artifactId>httpcomponents-client</artifactId>
 <version>4.1.1</version>
 </dependency>
 <dependency>
-<groupId>httpcomponents</groupId>
+<groupId>org.apache.httpcomponents</groupId>
 <artifactId>httpcomponents-mime</artifactId>
 <version>4.1.1</version>
 </dependency>
