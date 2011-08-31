@@ -24,14 +24,15 @@ dojo.declare(
     xfControl:null,
     incremental:false,
     currentValue:"",    
-    focused:false,
+    bfFocus:false,
 
 
     applyProperties:function(xfControl, node) {
         this.xfControl = xfControl;
-        // console.debug("ControlValue.applyProperties: xfControl:",xfControl, " template node:",node);
-        if (dojo.attr(node, "incremental") != undefined && dojo.attr(node, "incremental") != "") {
-            this.incremental = eval(dojo.attr(node, "incremental"));
+        //console.debug("ControlValue.applyProperties: xfControl:",xfControl, " template node:",node);
+        var isIncremental = dojo.attr(node, "incremental");
+        if (isIncremental != undefined && isIncremental != "") {
+            this.incremental = eval(isIncremental);
         }else {
             this.incremental = false;
         }
@@ -40,7 +41,7 @@ dojo.declare(
         }
     },
     setCurrentValue:function(value) {
-        // console.debug("ControlValue.setCurrentValue value:",value);
+        //console.debug("ControlValue.setCurrentValue value:",value);
         if (value != undefined) {
             this.currentValue = value;
         } else {
@@ -50,7 +51,7 @@ dojo.declare(
 
     _handleDOMFocusIn:function() {
         // console.debug("ControlValue._handleDOMFocusIn()");
-        this.focused = true;
+        this.bfFocus = true;
         this.domNode.focus();
     },
 
@@ -61,11 +62,11 @@ dojo.declare(
 
         fluxProcessor.currentControlId = this.xfControl.id;
 
-        if(!this.focused){
+        if(!this.bfFocus){
             fluxProcessor.dispatchEventType(this.xfControl.id,"DOMFocusIn");
         }
 
-        this.focused = true;
+        this.bfFocus = true;
         if(this.xfControl.isValid()){
             dojo.publish("/xf/valid",[this.xfControl.id,"onFocus"]);
         }else {
@@ -81,7 +82,7 @@ dojo.declare(
 
     handleOnBlur:function() {
         // console.debug("ControlValue.handleOnBlur");
-        this.focused = false;
+        this.bfFocus = false;
         if(this.xfControl.isValid()){
             dojo.publish("/xf/valid",[this.xfControl.id,"onBlur"]);
         }else {

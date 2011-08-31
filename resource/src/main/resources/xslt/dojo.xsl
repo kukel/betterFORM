@@ -341,7 +341,7 @@
                      </xsl:for-each>
 
                      <xsl:variable name="outermostNodeset"
-                                  select=".//xf:*[not(xf:model)][not(ancestor::xf:*)]"/>
+                                  select=".//xf:*[not(ancestor::*[namespace-uri()='http://www.w3.org/2002/xforms'])][not(namespace-uri()='http://www.w3.org/2002/xforms' and local-name()='model')]"/>
 
                     <!-- detect how many outermost XForms elements we have in the body -->
                     <xsl:choose>
@@ -386,7 +386,36 @@
 
             <xsl:if test="$debug-enabled='true'">
                 <!-- z-index of 1000 so it is also in front of shim for modal dialogs -->
-                <div id="debug-pane" context="{concat($contextroot,'/inspector/',$sessionKey,'/')}">
+                <script type="text/javascript">
+                    function toggleDebug(){
+                        var debugpane = dojo.byId("debug-pane");
+                        if(dojo.hasClass(debugpane,"open")){
+                            dojo.animateProperty({
+                              node:debugpane,
+                              properties: {
+                                  width:{start:100,end:0,unit:"%"},
+                                  opacity:{start:1.0, end:0}
+                              }
+                            }).play();
+                            dojo.removeClass(debugpane,"open");
+                            dojo.addClass(debugpane,"closed");
+                        }else{
+                            dojo.animateProperty({
+                              node:debugpane,
+                              properties: {
+                                  width:{start:0,end:100,units:"%"},
+                                  opacity:{start:0, end:1.0}
+                              }
+                            }).play();
+                            dojo.removeClass(debugpane,"closed");
+                            dojo.addClass(debugpane,"open");
+                        }
+                    }
+                </script>
+                <div id="openclose">
+                    <a href="javascript:toggleDebug();" alt="x"><img class="debug-icon" src="{concat($contextroot,'/bfResources/images/collapse.png')}" alt="-"/></a>
+                </div>
+                <div id="debug-pane" class="open" context="{concat($contextroot,'/inspector/',$sessionKey,'/')}">
                     <div style="float:right;margin-right:20px;text-align:right;" id="copyright">
                         <a href="http://www.betterform.de">
                             <img style="vertical-align:text-bottom; margin-right:5px;"
@@ -394,9 +423,9 @@
                         </a>
                         <span>&#xA9; 2011 betterFORM</span>
                     </div>
-                    <span id="debug-pane-links" style="float:left;width:80%;">
+                    <div id="debug-pane-links">
                         <a href="{concat($contextroot,'/inspector/',$sessionKey,'/','hostDOM')}" target="_blank">Host Document</a>
-                    </span>
+                    </div>
                 </div>
             </xsl:if>
         </body>

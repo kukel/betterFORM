@@ -363,6 +363,7 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
     },
 
     dispatchEventType:function(targetId, eventType, contextInfo) {
+        // console.debug("FluxProcessor.dispatchEventType(",targetId,") this: ", this, " eventType:",eventType, " contextInfo:",contextInfo);
         var newClientServerEvent = new betterform.ClientServerEvent();
         newClientServerEvent.setTargetId(targetId);
         newClientServerEvent.setEventType(eventType);
@@ -372,6 +373,7 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
     },
 
     _dispatchEventType:function(targetId, eventType, contextInfo) {
+        // console.debug("FluxProcessor._dispatchEventType(",targetId,") this: ", this, " eventType:",eventType, " contextInfo:",contextInfo);
         try {
             dwr.engine.setErrorHandler(this._handleExceptions);
             dwr.engine.setOrdered(true);
@@ -758,59 +760,61 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
             var mountpoint = dojo.byId(xlinkTarget);
 
             if(cssToLoad != undefined && cssToLoad != ""){
-                var newStyle = dojo.doc.createElementNS("http://www.w3.org/1999/xhtml","style");
-                dojo.attr(newStyle,"name",xlinkTarget);
-                dojo.attr(newStyle,"type","text/css");
-                newStyle.appendChild(dojo.doc.createTextNode(cssToLoad));
-                headID.appendChild(newStyle);
-                console.debug("new Style: ", newStyle);
+                //console.debug("adding Style: ", cssToLoad);
+                var stylesheet1 = document.createElement('style');
+                stylesheet1.setAttribute("type", "text/css");
+                stylesheet1.setAttribute("name", xlinkTarget);
+                var head1 = document.getElementsByTagName('head')[0];
+                head1.appendChild(stylesheet1);
+                if (stylesheet1.styleSheet) {   // IE
+                        stylesheet1.styleSheet.cssText = cssToLoad;
+                } else {                // the world
+                        var textNode1 = document.createTextNode(cssToLoad);
+                        stylesheet1.appendChild(textNode1);
+                }
             }
 
             var externalCssToLoad = xmlEvent.contextInfo.externalCSS;
+
             if (externalCssToLoad != undefined && externalCssToLoad != "") {
                 var styles = externalCssToLoad.split('#');
-
+                var head2 = document.getElementsByTagName('head')[0];
                 for (var i = 0; i <= styles.length; i = i+1) {
                     if (styles[i] != undefined && styles[i] != "") {
-                        var newStyle = dojo.doc.createElementNS("http://www.w3.org/1999/xhtml","link");
-                        dojo.attr(newStyle,"name",xlinkTarget);
-                        dojo.attr(newStyle,"href",styles[i]);
-                        dojo.attr(newStyle,"type","text/css");
-                        dojo.attr(newStyle,"rel","stylesheet");
-                        newStyle.appendChild(dojo.doc.createTextNode(''));
-                        headID.appendChild(newStyle);
-                        console.debug("new Style: ", newStyle);
+                        //console.debug("adding Style: ", styles[i]);
+                        var stylesheet2 = document.createElement('link');
+                        stylesheet2.setAttribute("rel","stylesheet");
+                        stylesheet2.setAttribute("type","text/css");
+                        stylesheet2.setAttribute("href",styles[i]);
+                        stylesheet2.setAttribute("name",xlinkTarget);
+                        head2.appendChild(stylesheet2);
                     }
                 }
             }
 
-
             var inlineJavaScriptToLoad = xmlEvent.contextInfo.inlineJavascript;
             if (inlineJavaScriptToLoad != undefined && inlineJavaScriptToLoad != "") {
-                var script = document.createElement('script');
-
-                var newScript = dojo.doc.createElementNS("http://www.w3.org/1999/xhtml","script");
-                dojo.attr(newScript,"name",xlinkTarget);
-                dojo.attr(newScript,"type","text/javascript");
-                newScript.appendChild(dojo.doc.createTextNode(inlineJavaScriptToLoad));
-                mountpoint.appendChild(newScript);
-                console.debug("new Script: ", newScript);
+                //console.debug("adding script: ", inlineJavaScriptToLoad);
+                var javascript1 = document.createElement('script');
+                javascript1.setAttribute("type", "text/javascript");
+                javascript1.setAttribute("name", xlinkTarget);
+                var head3 = document.getElementsByTagName('head')[0];
+                head3.appendChild(javascript1);
+                javascript1.text = inlineJavaScriptToLoad;
             }
-
 
             var externalJavaScriptToLoad = xmlEvent.contextInfo.externalJavascript;
             if (externalJavaScriptToLoad != undefined && externalJavaScriptToLoad != "") {
                 var scripts = externalJavaScriptToLoad.split('#');
-
+                var head4 = document.getElementsByTagName("head")[0];
                 for (var i = 0; i <= scripts.length; i = i+1) {
                     if (scripts[i] != undefined && scripts[i] != "") {
-                        var newScript = dojo.doc.createElementNS("http://www.w3.org/1999/xhtml","script");
-                        dojo.attr(newScript,"name",xlinkTarget);
-                        dojo.attr(newScript,"src",scripts[i]);
-                        dojo.attr(newScript,"type","text/javascript");
-                        newScript.appendChild(dojo.doc.createTextNode(''));
-                        mountpoint.appendChild(newScript);
-                        console.debug("new Script: ", newScript);
+                        //console.debug("adding script: ", scripts[i]);
+                        var javascript2 = document.createElement('script');
+                        javascript2.setAttribute("type","text/javascript");
+                        javascript2.setAttribute("src",scripts[i]);
+                        javascript2.setAttribute("name",xlinkTarget);
+                        head4.appendChild(javascript2);
                     }
                 }
             }
@@ -878,14 +882,14 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
         }
 
         var styleList = document.getElementsByTagName("style");
-        console.debug("styleList" , styleList);
+        //console.debug("styleList" , styleList);
         if (styleList != undefined) {
         dojo.forEach(styleList, function(item) {
                 //console.debug("style: ", item);
                 if (item != undefined) {
             if(dojo.attr(item,"name") == target){
-                        console.debug("removing style: ", item);
-                        console.debug("parentNode: ", item.parentNode);
+                        //console.debug("removing style: ", item);
+                        //console.debug("parentNode: ", item.parentNode);
                 item.parentNode.removeChild(item);
             }
                 }
@@ -908,14 +912,14 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
         }
 
         var scriptList = document.getElementsByTagName("script");
-        console.debug("scriptList" , scriptList);
+        //console.debug("scriptList" , scriptList);
         if (scriptList != undefined) {
             dojo.forEach(scriptList, function(item) {
-                console.debug("script: ", item);
+                //console.debug("script: ", item);
                 if (item != undefined) {
                     if(dojo.attr(item,"name") == target){
-                        console.debug("removing script: ", item);
-                        console.debug("parentNode: ", item.parentNode);
+                        //console.debug("removing: ", item);
+                        //console.debug("parentNode: ", item.parentNode);
                         item.parentNode.removeChild(item);
                     }
                 }
@@ -968,6 +972,17 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
                 if (exception != undefined) {
                     console.warn("An Exception occured in Facade: ", exception);
                 } else {
+                    alert(message);
+                    // the following code had to be disabled because of focusing problems:
+                    // when dialog is opened by a DOMFocusIn event the behavior of Dialog cause an endless loop
+                    // of focusIn events as the Dialog will send the focus back to the control that had focus before
+                    // opening the Dialog. This effectively causes the page to 'hang'. Focusing can be disabled in
+                    // Dialog but then the original focus will be lost. The standard alert does not have these
+                    // problems.
+
+/*
+
+
                     var messageNode = dojo.create("div",  null, dojo.body());
                     dojo.attr(messageNode, "title", "Message");
                     dojo.require("dijit.Dialog");
@@ -996,6 +1011,7 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
                                                 },
                                                 closeBtnNode);
                     messageDialog.show();
+*/
                 }
             }
         } else {
@@ -1201,7 +1217,9 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
          * **/
         else if (dijit.byId(xfControlId) != undefined) {
             // console.debug("FluxProcessor.handleStateChanged on existing Dijit [id: " + xfControlId + ", / object:",dijit.byId(xfControlId),+"]");
-            dijit.byId(xfControlId).handleStateChanged(xmlEvent.contextInfo);
+            var xfControlDijit = dijit.byId(xfControlId);
+            // console.debug("_handleBetterFormStateChanged: ", xfControlDijit, " xmlEvent.contextInfo:",xmlEvent.contextInfo);
+            xfControlDijit.handleStateChanged(xmlEvent.contextInfo);
         }
         /**
          *
@@ -1240,7 +1258,8 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
                 //  special handling for Select controls, check if parent node is selector item
                 else if (dojo.hasClass(parentControlNode, "xfSelectorItem")) {
                     // console.debug("FluxProcessor.handleStateChanged Target Node does not exist, Parent Control is SelectorItem (ParentSelector:" , parentControlNode , ")");
-                    dijit.byId(dojo.attr(parentControlNode.parentNode, "id")).handleStateChanged(xmlEvent.contextInfo);
+                    var selectParentId = dojo.attr(parentControlNode.parentNode, "id");
+                    dijit.byId(selectParentId).handleStateChanged(xmlEvent.contextInfo);
                 }
                 else {
                     console.warn("FluxProcessor betterform-state-changed: No handleStateChanged implementation availabled for contextinfo: ", xmlEvent.contextInfo);
@@ -1391,7 +1410,7 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
         	// console.debug("dom-focus-in-dijit control: ",xfControlId);
             dijit.byId(xfControlId)._handleDOMFocusIn();
         } else if (dojo.byId(xfControlId) != undefined) {
-        	// console.debug("dom-focus-in-dojo control: ",xfControlId);
+        	console.debug("dom-focus-in-dojo control: ",xfControlId);
             var domControlValue = dojo.byId(xfControlId)
             domControlValue.focus();
         } else {
