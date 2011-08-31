@@ -5,12 +5,9 @@
       
       <title>Image output control</title>
       
-      <link rel="stylesheet" type="text/css" href="betterform/bfResources/scripts/dojox/highlight/resources/highlight.css" />
-      <link rel="stylesheet" type="text/css" href="reference.css" /><script type="text/javascript">
-                dojo.subscribe("/xf/ready", function(){
-                    fluxProcessor.skipshutdown=true;
-                });
-            </script></head>
+      <link rel="stylesheet" type="text/css" href="../../bfResources/scripts/dojox/highlight/resources/highlight.css" />
+      <link rel="stylesheet" type="text/css" href="reference.css" />
+   </head>
    
    <body class="soria InlineAlert" style="margin:30px">
       <div id="xforms" class="InlineAlert">
@@ -60,8 +57,8 @@
                   </th>
                </tr>
                <tr>
-                  <td id="d25e133" onmouseover="showClass('xfOutput');" onmouseout="hideClass('xfOutput');">xfOutput
-                     <div dojoType="dijit.Tooltip" connectId="d25e133">matches an Element that represents a XForms
+                  <td id="d26e133" onmouseover="showClass('xfOutput');" onmouseout="hideClass('xfOutput');">xfOutput
+                     <div dojoType="dijit.Tooltip" connectId="d26e133">matches an Element that represents a XForms
                         output
                         element
                         
@@ -314,7 +311,10 @@
                             dojo.removeClass(item,'showClass');
                         });
                     }                    
-                </script></div>
-   </body>
+                </script></div><script type="text/javascript">
+                dojo.subscribe("/xf/ready", function(){
+                    fluxProcessor.skipshutdown=true;
+                });
+            </script></body>
    
 </html>

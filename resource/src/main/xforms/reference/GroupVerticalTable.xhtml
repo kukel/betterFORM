@@ -5,12 +5,9 @@
       
       <title>group rendered as vertical table</title>
       
-      <link rel="stylesheet" type="text/css" href="betterform/bfResources/scripts/dojox/highlight/resources/highlight.css" />
-      <link rel="stylesheet" type="text/css" href="reference.css" /><script type="text/javascript">
-                dojo.subscribe("/xf/ready", function(){
-                    fluxProcessor.skipshutdown=true;
-                });
-            </script></head>
+      <link rel="stylesheet" type="text/css" href="../../bfResources/scripts/dojox/highlight/resources/highlight.css" />
+      <link rel="stylesheet" type="text/css" href="reference.css" />
+   </head>
    
    <body class="soria InlineAlert" style="margin:30px">
       <div id="xforms" class="InlineAlert">
@@ -68,8 +65,8 @@
                   </th>
                </tr>
                <tr>
-                  <td id="d12e148" onmouseover="showClass('xfContainer');" onmouseout="hideClass('xfContainer');">xfContainer
-                     <div dojoType="dijit.Tooltip" connectId="d12e148">matches any Element that represents a XForms
+                  <td id="d13e148" onmouseover="showClass('xfContainer');" onmouseout="hideClass('xfContainer');">xfContainer
+                     <div dojoType="dijit.Tooltip" connectId="d13e148">matches any Element that represents a XForms
                         group
                         |
                         repeat
@@ -81,8 +78,8 @@
                   </td>
                </tr>
                <tr>
-                  <td id="d12e166" onmouseover="showClass('bfVerticalTable');" onmouseout="hideClass('bfVerticalTable');">bfVerticalTable
-                     <div dojoType="dijit.Tooltip" connectId="d12e166">matches an Element that represents a XForms
+                  <td id="d13e166" onmouseover="showClass('bfVerticalTable');" onmouseout="hideClass('bfVerticalTable');">bfVerticalTable
+                     <div dojoType="dijit.Tooltip" connectId="d13e166">matches an Element that represents a XForms
                         group
                         element with
                         'bf:verticalTable'
@@ -92,8 +89,8 @@
                   </td>
                </tr>
                <tr>
-                  <td id="d12e181" onmouseover="showClass('xfGroupLabel');" onmouseout="hideClass('xfGroupLabel');">xfGroupLabel
-                     <div dojoType="dijit.Tooltip" connectId="d12e181">matches the  label of a group</div>
+                  <td id="d13e181" onmouseover="showClass('xfGroupLabel');" onmouseout="hideClass('xfGroupLabel');">xfGroupLabel
+                     <div dojoType="dijit.Tooltip" connectId="d13e181">matches the  label of a group</div>
                   </td>
                </tr>
                <tr>
@@ -338,7 +335,10 @@
                             dojo.removeClass(item,'showClass');
                         });
                     }                    
-                </script></div>
-   </body>
+                </script></div><script type="text/javascript">
+                dojo.subscribe("/xf/ready", function(){
+                    fluxProcessor.skipshutdown=true;
+                });
+            </script></body>
    
 </html>
