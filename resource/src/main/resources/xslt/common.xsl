@@ -478,6 +478,23 @@
                     </xsl:otherwise>
 		</xsl:choose>
     </xsl:template>
+    
+        <!-- Create label value and take xml:lang attribute into account -->
+    <xsl:template name="create-hint">
+    	<xsl:param name="hint-elements"/>
+            	<xsl:choose>
+            	    <xsl:when test="$hint-elements[@lang=$locale]">
+                        <xsl:apply-templates select="$hint-elements[@lang=$locale]"/>
+                    </xsl:when>
+            	    <xsl:when test="$hint-elements[not(@lang)]">
+                        <xsl:apply-templates select="$hint-elements[not(@lang)]"/>
+                    </xsl:when>
+            	    <xsl:otherwise>
+                        <xsl:apply-templates select="$hint-elements[1]"/>
+                    </xsl:otherwise>
+		</xsl:choose>
+    </xsl:template>
+    
 
     <!-- ########################## ACTIONS ####################################################### -->
     <!-- these templates serve no real purpose here but are shown for reference what may be over-   -->

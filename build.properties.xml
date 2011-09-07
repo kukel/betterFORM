@@ -24,7 +24,7 @@
         </app>
         <transform>
             <classpath pathid="transform.class.path" description="classpath for saxon XPath and XSLT engine">
-                <pathelement location="${core.dir}/src/main/lib/saxon-9.2.1.5.jar" groupid="net.sf.saxon" version="9.2.1.5" artifactId="saxon"/>
+                <pathelement location="${core.dir}/src/main/lib/saxon-9.2.1.5.jar" groupid="org.apache.httpcomponents" version="9.2.1.5" artifactId="saxon"/>
             </classpath>
         </transform>
         <compile>
@@ -36,12 +36,12 @@
                 <pathelement location="${core.dir}/src/main/lib/commons-fileupload-1.2.1.jar"
                              groupid="commons-fileupload" version="1.2.1" artifactId="commons-fileupload"/>
                 <!-- <pathelement location="${core.dir}/src/main/lib/commons-httpclient-3.1.jar" groupid="commons-httpclient" version="3.1" artifactId="commons-httpclient"/> -->
-                <pathelement location="${core.dir}/src/main/lib/httpcore-4.1.jar" groupid="httpcomponents" version="4.1"
-                             artifactId="httpcomponents-core"/>
-                <pathelement location="${core.dir}/src/main/lib/httpclient-4.1.1.jar" groupid="httpcomponents"
-                             version="4.1.1" artifactId="httpcomponents-client"/>
-                <pathelement location="${core.dir}/src/main/lib/httpmime-4.1.1.jar" groupid="httpcomponents" version="4.1.1"
-                             artifactId="httpcomponents-mime"/>
+                <pathelement location="${core.dir}/src/main/lib/httpcore-4.1.jar" groupid="org.apache.httpcomponents" version="4.1"
+                             artifactId="httpcore"/>
+                <pathelement location="${core.dir}/src/main/lib/httpclient-4.1.1.jar" groupid="org.apache.httpcomponents"
+                             version="4.1.1" artifactId="httpclient"/>
+                <pathelement location="${core.dir}/src/main/lib/httpmime-4.1.1.jar" groupid="org.apache.httpcomponents" version="4.1.1"
+                             artifactId="httpmime"/>
                 <pathelement location="${core.dir}/src/main/lib/commons-io-1.4.jar" groupid="commons-io" version="1.4"
                              artifactId="commons-io"/>
                 <pathelement location="${core.dir}/src/main/lib/commons-lang-2.4.jar" groupid="commons-lang"

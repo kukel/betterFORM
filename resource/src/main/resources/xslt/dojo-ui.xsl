@@ -264,7 +264,9 @@
                                     </td>
                                     <td class="bfVerticalTableInfo" valign="top">
                                         <xsl:apply-templates select="xforms:alert"/>
-                                        <xsl:apply-templates select="xforms:hint"/>
+           								<xsl:call-template name="create-hint">
+            								<xsl:with-param name="hint-elements" select="xforms:hint"/>
+            							</xsl:call-template>
                                         <xsl:apply-templates select="xforms:help"/>
                                         <span class="info" style="display:none;" id="{concat(@id,'-info')}">ok</span>
                                     </td>
@@ -560,7 +562,9 @@
                 </xsl:when>
             </xsl:choose>
             <xsl:apply-templates select="xforms:alert"/>
-            <xsl:apply-templates select="xforms:hint"/>
+           								<xsl:call-template name="create-hint">
+            								<xsl:with-param name="hint-elements" select="xforms:hint"/>
+            							</xsl:call-template>
             <xsl:apply-templates select="xforms:help"/>
 
         </xsl:element>
@@ -721,7 +725,9 @@
             </xsl:choose>
 
             <xsl:apply-templates select="xforms:alert"/>
-            <xsl:apply-templates select="xforms:hint"/>
+           								<xsl:call-template name="create-hint">
+            								<xsl:with-param name="hint-elements" select="xforms:hint"/>
+            							</xsl:call-template>
             <xsl:apply-templates select="xforms:help"/>
 
         </xsl:element>
@@ -900,7 +906,9 @@
 
             <xsl:call-template name="buildControl"/>
             <xsl:apply-templates select="xforms:alert"/>
-            <xsl:apply-templates select="xforms:hint"/>
+           								<xsl:call-template name="create-hint">
+            								<xsl:with-param name="hint-elements" select="xforms:hint"/>
+            							</xsl:call-template>
             <xsl:apply-templates select="xforms:help"/>
 
 

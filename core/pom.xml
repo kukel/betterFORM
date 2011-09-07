@@ -88,8 +88,8 @@
 
     <dependencies>
 <dependency>
-<groupId>net.sf.saxon</groupId>
-<artifactId>saxon</artifactId>
+<groupId>net.sourceforge.saxon</groupId>
+<artifactId>saxonhe</artifactId>
 <version>9.2.1.5</version>
 </dependency>
 <dependency>
@@ -103,18 +103,18 @@
 <version>1.2.1</version>
 </dependency>
 <dependency>
-<groupId>httpcomponents</groupId>
-<artifactId>httpcomponents-core</artifactId>
+<groupId>org.apache.httpcomponents</groupId>
+<artifactId>httpcore</artifactId>
 <version>4.1</version>
 </dependency>
 <dependency>
-<groupId>httpcomponents</groupId>
-<artifactId>httpcomponents-client</artifactId>
+<groupId>org.apache.httpcomponents</groupId>
+<artifactId>httpclient</artifactId>
 <version>4.1.1</version>
 </dependency>
 <dependency>
-<groupId>httpcomponents</groupId>
-<artifactId>httpcomponents-mime</artifactId>
+<groupId>org.apache.httpcomponents</groupId>
+<artifactId>httpmime</artifactId>
 <version>4.1.1</version>
 </dependency>
 <dependency>

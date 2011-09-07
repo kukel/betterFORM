@@ -478,7 +478,9 @@
 
             <xsl:call-template name="buildControl"/>
             <xsl:apply-templates select="xf:alert"/>
-            <xsl:apply-templates select="xf:hint"/>
+            <xsl:call-template name="create-hint">
+            	<xsl:with-param name="hint-elements" select="xf:hint"/>
+            </xsl:call-template>
             <!--<xsl:apply-templates select="xf:help"/>-->
 
             <xsl:copy-of select="script"/>
@@ -507,7 +509,9 @@
             <xsl:call-template name="buildControl"/>
 
             <xsl:apply-templates select="xf:alert"/>
-            <xsl:apply-templates select="xf:hint"/>
+            <xsl:call-template name="create-hint">
+            	<xsl:with-param name="hint-elements" select="xf:hint"/>
+            </xsl:call-template>
             <!--<xsl:apply-templates select="xf:help"/>-->
 
             <xsl:copy-of select="script"/>
@@ -534,7 +538,9 @@
                 </label>
             <xsl:call-template name="buildControl"/>
             <span id="{$id}-alertAttachPoint" style="display:none;" class="alertAttachPoint"/>
-            <xsl:apply-templates select="xf:hint"/>
+            <xsl:call-template name="create-hint">
+            	<xsl:with-param name="hint-elements" select="xf:hint"/>
+            </xsl:call-template>
             <!--<xsl:apply-templates select="xf:help"/>-->
 
             <xsl:copy-of select="script"/>
@@ -781,7 +787,9 @@
                     </xsl:if>
                 </button>
                 <!--<div style="display:none;" id="{concat($id,'-hint')}"><xsl:value-of select="xf:hint"/></div>-->
-                <xsl:apply-templates select="xf:hint"/>
+            <xsl:call-template name="create-hint">
+            	<xsl:with-param name="hint-elements" select="xf:hint"/>
+            </xsl:call-template>
             </xsl:when>
 
             <xsl:when test="local-name()='range'">

@@ -76,6 +76,12 @@ body {
 	-webkit-border-radius:5px;
 
 }
+#debug-pane.open {
+visibility: visible;
+}
+#debug-pane.closed {
+visibility:hidden;
+}
 #openclose{
     position: fixed;
     width:30px;
