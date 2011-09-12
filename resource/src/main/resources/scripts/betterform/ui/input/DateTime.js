@@ -1,5 +1,5 @@
     /*
- * Copyright (c) 2010. betterForm Project - http://www.betterform.de
+ * Copyright (c) 2011. betterForm Project - http://www.betterform.de
  * Licensed under the terms of BSD License
  */
 
@@ -61,7 +61,7 @@ dojo.declare(
         var timeValue;
         if(value != undefined && value != ""){
             var tmpValue = value.split("T");
-            dateValue = dojo.date.stamp.fromISOString(tmpValue[0],this.constraints);
+            dateValue = dojo.date.locale.format(dojo.date.stamp.fromISOString(tmpValue[0],this.constraints), { datePattern:this.constraints.datePattern, selector:'date'});
             timeValue = dojo.date.stamp.fromISOString("T"+tmpValue[1],this.constraints);
         }else {
             dateValue = "";

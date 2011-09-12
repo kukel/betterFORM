@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2011. betterForm Project - http://www.betterform.de
+  ~ Licensed under the terms of BSD License
+  -->
+
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
       xmlns:xf="http://www.w3.org/2002/xforms"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"      
@@ -9,7 +14,7 @@
     version="2.0">
     <xsl:output indent="yes" method="xml"/>
 
-    <xsl:variable name="projects" select="document('src/main/xrx/timetracker/data/project.xml')"/>
+    <xsl:variable name="projects" select="document('main/xrx/timetracker/data/project.xml')"/>
 
 
     <xsl:template match="data">

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010. betterForm Project - http://www.betterform.de
+ * Copyright (c) 2011. betterForm Project - http://www.betterform.de
  * Licensed under the terms of BSD License
  */
 
@@ -1447,7 +1447,7 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
         	// console.debug("dom-focus-in-dijit control: ",xfControlId);
             dijit.byId(xfControlId)._handleDOMFocusIn();
         } else if (dojo.byId(xfControlId) != undefined) {
-        	console.debug("dom-focus-in-dojo control: ",xfControlId);
+        	// console.debug("dom-focus-in-dojo control: ",xfControlId);
             var domControlValue = dojo.byId(xfControlId);
             domControlValue.focus();
         } else {

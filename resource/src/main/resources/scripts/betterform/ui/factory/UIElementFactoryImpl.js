@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010. betterForm Project - http://www.betterform.de
+ * Copyright (c) 2011. betterForm Project - http://www.betterform.de
  * Licensed under the terms of BSD License
  */
 
@@ -186,7 +186,9 @@ dojo.declare(
                 name:controlId + "-value",
                 "class":classValue,
                 title:dojo.attr(sourceNode,"title"),
-                xfControlId:controlId
+                xfControlId:controlId,
+                height:'100%',
+                extraPlugins:[]
                 }, sourceNode);
         }
         else if(appearance && appearance.toLowerCase() == "growing"){

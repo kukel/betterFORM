@@ -1,8 +1,5 @@
 /*
- * Copyright (c) 2010. betterForm Project - http://www.betterform.de
- * All Rights Reserved.
- * @author Joern Turner
- * @author Lars Windauer
+ * Copyright (c) 2011. betterForm Project - http://www.betterform.de
  * Licensed under the terms of BSD License
  */
 
@@ -15,8 +12,10 @@ dojo.require("dijit.PopupMenuItem");
 dojo.require("dijit.PopupMenuBarItem");
 dojo.require("dijit.MenuItem");
 
+
+dojo.require("betterform.xfEditorUtil");
+dojo.provide("betterform.editor.addMenu");
 dojo.require("betterform.editor.Editor");
-dojo.require("betterform.Editor");
 dojo.require("dijit.layout.TabContainer");
 dojo.require("dijit.form.TextBox");
 dojo.require("dijit.form.Select");

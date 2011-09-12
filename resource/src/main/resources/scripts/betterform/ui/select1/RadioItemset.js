@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010. betterForm Project - http://www.betterform.de
+ * Copyright (c) 2011. betterForm Project - http://www.betterform.de
  * Licensed under the terms of BSD License
  */
 
@@ -96,7 +96,7 @@ dojo.declare(
 
         if (outputControls != undefined && outputControls != "") {            
             for (var index = 0; index <= outputControls.length; index++) {
-                var item = outputControls[i].cloneNode(true);
+                var item = outputControls[index].cloneNode(true);
 
                 dojo.attr(item, "id", generatedIds[item.id]);
                 dojo.attr(item, "parentId", myParentNode.id);

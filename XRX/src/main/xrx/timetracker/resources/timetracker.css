@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2011. betterForm Project - http://www.betterform.de
+ * Licensed under the terms of BSD License
+ */
+
 body{
     margin:0;
     padding:0;
@@ -17,7 +22,7 @@ body{
     float:right;
     color:#b0c4de;
     font-size:20pt;
-    margin-right:10px;                                                                                        
+    margin-right:10px;
     margin-top:55px;
 }
 #bfLoading {

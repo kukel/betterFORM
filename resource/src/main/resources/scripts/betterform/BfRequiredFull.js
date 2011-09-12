@@ -1,10 +1,7 @@
 /*
-* Copyright (c) 2010. betterForm Project - http://www.betterform.de
-* All Rights Reserved.
-* @author Joern Turner
-* @author Lars Windauer
-* Licensed under the terms of BSD License
-*/
+ * Copyright (c) 2011. betterForm Project - http://www.betterform.de
+ * Licensed under the terms of BSD License
+ */
 
 dojo.provide("betterform.BfRequiredFull");
 
@@ -30,4 +27,3 @@ dojo.require("betterform.ui.textarea.HtmlEditor");
 dojo.require("betterform.ui.textarea.DojoEditor");
 dojo.require("betterform.ui.textarea.SimpleTextarea");
 dojo.require("betterform.editor.Editor");
-dojo.require("betterform.Editor");

@@ -16,6 +16,7 @@
     -->
     <xsl:output method="xml" indent="yes"/>
     <xsl:param name="bfContext" select="''"/>
+    <xsl:param name="filename" select="''"/>
     <!-- <xsl:variable name="bfContext" select="'/exist'"/> -->
     <xsl:strip-space elements="*"/>
     <xsl:template match="/">
@@ -30,7 +31,6 @@
                         src="../../../bfResources/scripts/jstree_pre1.0_stable/_lib/jquery.hotkeys.js"></script>
                 <script type="text/javascript"
                         src="../../../bfResources/scripts/jstree_pre1.0_stable/jquery.jstree.js"></script>
-                <script type="text/javascript" src="../../../bfResources/scripts/betterform/xfEditorUtil.js"></script>
 
                 <link rel="stylesheet" type="text/css" href="../../../bfResources/styles/xforms-editor.css"/>
             </head>
@@ -53,7 +53,7 @@
 
                           <!-- merge original XForms host document with Editor XForms markup -->
                         <xf:submission id="s-replaceContent" method="get"
-                                       action="xslt:{$bfContext}{$bfEditorPath}updateOriginal.xsl?originDoc={{$contextPath}}{{$fileName}}"
+                                       action="xslt:{$bfContext}{$bfEditorPath}updateOriginal.xsl?originDoc={$bfContext}/rest{$filename}"
                                        replace="instance" validate="false">
                             <!-- MODE: SAVE AS -->
                             <xf:action ev:event="xforms-submit-done" if="instance('i-controller')/mode eq 'save-as'">
@@ -79,7 +79,7 @@
 
                         <!-- Overwrites the current form loaded within the editor  -->
                         <xf:submission id="s-save" method="put" replace="none">
-                            <xf:resource value="IF(substring(bf:appContext('pathInfo'),2) eq '', bf:appContext('requestURL'), concat(bf:appContext('webapp.realpath'),substring(bf:appContext('pathInfo'),2)) )"/>
+                            <xf:resource value="IF(substring(bf:appContext('pathInfo'),2) eq '', concat(bf:appContext('contextroot'), '/rest', instance('i-controller')/filename) , concat(bf:appContext('webapp.realpath'),substring(bf:appContext('pathInfo'),2)) )"/>
                             <xf:header>
                                 <xf:name>username</xf:name>
                                 <xf:value value="instance('i-login')/username"/>
@@ -89,7 +89,7 @@
                                 <xf:value value="instance('i-login')/password"/>
                             </xf:header>
                             <xf:action ev:event="xforms-submit-done">
-                                <xf:setvalue ref="instance('i-controller')/save-msg" value="concat('Data stored to ',IF(substring(bf:appContext('pathInfo'),2) eq '', bf:appContext('requestURL'), concat(bf:appContext('webapp.realpath'),substring(bf:appContext('pathInfo'),2))))"/>
+                                <xf:setvalue ref="instance('i-controller')/save-msg" value="concat('Data stored to ',IF(substring(bf:appContext('pathInfo'),2) eq '', concat(bf:appContext('contextroot'), '/rest', instance('i-controller')/filename) , concat(bf:appContext('webapp.realpath'),substring(bf:appContext('pathInfo'),2)) ) )"/>
                                 <xf:message level="ephemeral" ref="instance('i-controller')/save-msg"/>
                             </xf:action>
                             <xf:message ev:event="xforms-submit-error">Storing failed</xf:message>
@@ -116,7 +116,7 @@
 
                         <!-- saves form to preview and opens it -->
                         <xf:submission id="s-preview" method="put" replace="none">
-                            <xf:resource value=" concat(substring-before(bf:appContext('requestURI'),'.xhtml'),'-prev.xhtml')"/>
+                            <xf:resource value="concat(substring-before( IF(substring(bf:appContext('pathInfo'),2) eq '', concat(bf:appContext('contextroot'), '/rest', instance('i-controller')/filename) , concat(bf:appContext('webapp.realpath'),substring(bf:appContext('pathInfo'),2)) ),'.xhtml'),'-prev.xhtml')"/>
                             <xf:header>
                                 <xf:name>username</xf:name>
                                 <xf:value value="instance('i-login')/username"/>
@@ -126,7 +126,7 @@
                                 <xf:value value="instance('i-login')/password"/>
                             </xf:header>
                             <xf:load show="new" ev:event="xforms-submit-done">
-                                <xf:resource value="concat(substring-before(bf:appContext('requestURI'),'.xhtml'),'-prev.xhtml')"/>
+                                <xf:resource value="concat(substring-before( IF(substring(bf:appContext('pathInfo'),2) eq '', concat(bf:appContext('contextroot'), '/rest', instance('i-controller')/filename) , concat(bf:appContext('webapp.realpath'),substring(bf:appContext('pathInfo'),2)) ),'.xhtml'),'-prev.xhtml')"/>
                             </xf:load>
                             <xf:message ev:event="xforms-submit-error">Preview failed</xf:message>
                         </xf:submission>
@@ -139,6 +139,7 @@
                                 <preview-msp>Error previewing file</preview-msp>
                                 <preview-path/>
                                 <mode/>
+                                <filename><xsl:value-of select="$filename"/></filename>
                             </data>
                         </xf:instance>
                         
@@ -231,6 +232,9 @@
                     <xf:case id="c-empty" selected="true"/>
                 <!-- login view if user is not logged in yet-->
                     <xf:case id="c-login">
+                         <div style="font-style: italic;color: orangered;text-align: center;width: 100%; font-size: 18px; border: #ff4500 solid thick;">
+                            Caution: This Editor is only a preview.
+                        </div>
                         <xf:group id="g-login" appearance="full" style="padding:20px;">
                             <xf:label>betterFORM XForms Editor</xf:label>
                             <div id="notice">In order to use the XForms Editor please login.</div>
@@ -349,7 +353,7 @@
                                         if (xfId == undefined) {
                                             return;
                                         }
-                                        console.log("xfid: ", xfId);
+                                        // console.log("xfid: ", xfId);
                                         attrEditor.editProperties(xfId);
                                     </script>
                                 </div>
@@ -365,7 +369,7 @@
 
                     function serializeTree() {
                         var serializedTree = new XMLSerializer().serializeToString(document.getElementById("xfDoc"));
-                        console.log(serializedTree);
+                        // console.log(serializedTree);
                         dijit.byId("fluxProcessor").setControlValue("save", serializedTree);
                         dijit.byId("fluxProcessor").dispatchEvent("transform2xf");
 
@@ -419,17 +423,17 @@
                                     "crrm" : {
                                         "move" : {
                                             "check_move" : function (m) {
-                                                console.log("check move:",m);
-                                                console.log("check move:",m.o);
+                                                // console.log("check move:",m);
+                                                // console.log("check move:",m.o);
                                                 var origin = m.o;
 
                                                 //the the xf type
                                                 var xfType = origin.attr("data-xf-type");
-                                                console.log("xfType ",xfType);
+                                                // console.log("xfType ",xfType);
 
                                                 var target = m.r;
                                                 var targetType = target.attr("data-xf-type");
-                                                console.log("check target:",targetType);
+                                                // console.log("check target:",targetType);
 
 
                                                 //check rules
@@ -484,12 +488,12 @@
 				                            return false;
                                         },
                                         "Alt+up"   : function (event) {
-                                            console.debug("Alt+up: event:",event);
+                                            // console.debug("Alt+up: event:",event);
                                             attrEditor.moveNodeUp(this)
                                         },
 
                                         "Alt+down" : function (event) {
-                                            console.debug("Alt+down: event:",event);
+                                            // console.debug("Alt+down: event:",event);
                                             attrEditor.moveNodeDown(this);
                                         },
                                         "ctrl+p" : function (event) {
@@ -505,12 +509,12 @@
                                     // alert( data.rslt.obj.attr("data-xf-type"));
                                     var tmpId=data.rslt.obj.attr("id");
                                     var nodeIsLoaded = attrEditor.nodeIsLoaded(tmpId);
-                                    console.debug("nodeIsLoaded:", nodeIsLoaded);
+                                    // console.debug("nodeIsLoaded:", nodeIsLoaded);
                                     if(nodeIsLoaded){
-                                        console.debug("PREVENTED LOADING OF PROPERTY EDITOR");
+                                        // console.debug("PREVENTED LOADING OF PROPERTY EDITOR");
                                         return;
                                     }else {
-                                        console.log(data);
+                                        // console.log(data);
                                         var xfType = data.rslt.obj.attr("data-xf-type");
                                         var mountNode = dojo.byId("xfMount");
                                         dojo.attr(mountNode ,"xfId", tmpId);
@@ -577,7 +581,7 @@
                             } else {
                                 //get parent
                                 var parentLI = currentItem.parentNode.parentNode;
-                                console.log("parent add: ", parentLI);
+                                // console.log("parent add: ", parentLI);
                                 addElement(currentItem.getAttribute("data-xf-type"), "after");
                             }
                         }
@@ -586,7 +590,7 @@
                     });
 
                     function addElement(type, position) {
-                        console.log("addElement type:", type);
+                        // console.log("addElement type:", type);
                         var elem = $("#xfDoc").jstree("create", null, position, type, false, true);
                         elem.attr("data-xf-type", type);
                         elem.attr("id", new Date().getTime());
@@ -713,16 +717,16 @@
                         src="../../../bfResources/scripts/betterform/betterform-XFormsEditor.js"></script>
                 <script type="text/javascript" defer="defer" src="../../../bfResources/scripts/betterform/editor/addMenu.js"></script>
                 <script type="text/javascript" defer="defer">
-                    attrEditor = new betterform.Editor({}, "editor");
+                    attrEditor = new betterform.editor.Editor({}, "editor");
                     //console.debug("attrEditor.: ",attrEditor);
 
                     function checkKeyboardInput(pEvent) {
                         var activeElem = document.activeElement.localName;
-                        console.debug("activeElem: ", activeElem);
+                        // console.debug("activeElem: ", activeElem);
                         if (activeElem == "input") {
                             return;
                         }
-                        console.debug("activeElem: ", activeElem);
+                        // console.debug("activeElem: ", activeElem);
                         switch (pEvent.charOrCode) {
                             case '?': //Process the Help key event
                                 dijit.byId("bfEditorHelp").show();
