@@ -31,6 +31,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -132,7 +133,7 @@ public class ResourceServlet extends HttpServlet {
 
             if (error) {
                 if (LOG.isWarnEnabled()) {
-                    LOG.warn("Resource \"{0}\" not found - " + resourcePath);
+                    LOG.warn(MessageFormat.format("Resource \"{0}\" not found - ",resourcePath));
                 }
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 return;
@@ -141,7 +142,7 @@ public class ResourceServlet extends HttpServlet {
         }
 
         if (LOG.isTraceEnabled()){
-            LOG.trace("Streaming resource \"{0}\" - " + resourcePath);
+            LOG.trace(MessageFormat.format("Streaming resource \"{0}\"", resourcePath));
         }
 
         InputStream inputStream = null;
@@ -160,7 +161,7 @@ public class ResourceServlet extends HttpServlet {
 
             if (mimeType == null) {
                 if(LOG.isTraceEnabled()){
-                    LOG.trace("MimeType for \"{0}\" not found. Sending 'not found' response - " + resourcePath);
+                    LOG.trace(MessageFormat.format("MimeType for \"{0}\" not found. Sending 'not found' response - ", resourcePath));
                 }
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
                 return;
@@ -172,10 +173,10 @@ public class ResourceServlet extends HttpServlet {
             streamResource(req, resp, mimeType, inputStream);
 
             if(LOG.isTraceEnabled()){
-                LOG.trace( "Resource \"{0}\" streamed succesfully - " + resourcePath);
+                LOG.trace(MessageFormat.format("Resource \"{0}\" streamed succesfully - ", resourcePath));
             }
         } catch (Exception exception) {
-            LOG.error("Error in streaming resource \"{0}\". Exception is \"{1}\" - " + new Object[]{resourcePath, exception.getMessage()});
+            LOG.error(MessageFormat.format("Error in streaming resource \"{0}\". Exception is \"{1}\" - ", new Object[]{resourcePath, exception.getMessage()}));
         } finally {
             if (inputStream != null) {
                 inputStream.close();

@@ -65,6 +65,12 @@ public class Upload extends AbstractFormControl {
             Validator validator = this.model.getValidator();
             String datatype = getDatatype();
 
+            // when using a ref on an upload, the correct type is NOT retrieved from the bind if the instance does not contain an element.
+            // 'string' is returned as a default which is *not* ok for the validation below
+            if (datatype == null || datatype.equals("string")) {
+            	return;
+            }
+            
             // convert binary data according to bound datatype
             if ( !(validator.isRestricted("base64Binary", datatype) || validator.isRestricted("hexBinary", datatype) || validator.isRestricted("anyURI", datatype)) ) {
                 this.container.dispatch(this.target,XFormsEventNames.BINDING_EXCEPTION, datatypeErrorMsg + datatype);

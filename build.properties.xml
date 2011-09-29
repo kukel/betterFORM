@@ -19,12 +19,12 @@
     </properties>
     <app>
         <name>betterform</name>
-        <version>3.2.0-RC3</version>
+        <version>3.2.0-RC3-icit</version>
     </app>
     <core>
         <app>
             <name>betterform-core</name>
-            <version>3.2.0-RC3</version>
+            <version>3.2.0-RC3-icit</version>
         </app>
         <transform>
             <classpath pathid="transform.class.path" description="classpath for saxon XPath and XSLT engine">

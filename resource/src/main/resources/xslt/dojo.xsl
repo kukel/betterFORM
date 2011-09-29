@@ -78,6 +78,7 @@
     <!-- ### the CSS stylesheet to use ### -->
     <xsl:variable name="default-css" select="concat($contextroot,$CSSPath,'xforms.css')"/>
     <xsl:variable name="betterform-css" select="concat($contextroot,$CSSPath,'betterform.css')"/>
+    <xsl:variable name="betterform-ie-css" select="concat($contextroot,$CSSPath,'betterform-ie7.css')"/>
 
     <xsl:variable name="default-hint-appearance" select="'bubble'"/>
 
@@ -131,7 +132,7 @@
 
             <!-- copy user-defined stylesheets and inline styles -->
             <xsl:call-template name="getLinkAndStyle"/>
-
+			
             <!-- include needed javascript files -->
             <xsl:call-template name="copyInlineScript"/>
         </head>
@@ -141,6 +142,10 @@
         <!-- include betterForm default stylesheet -->
         <link rel="stylesheet" type="text/css" href="{$default-css}"/>
         <link rel="stylesheet" type="text/css" href="{$betterform-css}"/>
+        <!-- RKU: IE7 'fixes' -->
+        <xsl:value-of disable-output-escaping="yes"><![CDATA[<!--[if lte IE 8]>]]></xsl:value-of>
+        <link rel="stylesheet" type="text/css" href="{$betterform-ie-css}"/>
+        <xsl:value-of disable-output-escaping="yes"><![CDATA[<![endif]-->]]></xsl:value-of>
     </xsl:template>
 
     <xsl:template name="addLocalScript">

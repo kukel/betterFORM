@@ -18,13 +18,12 @@
 
     <modules>
         <module>core</module>
-<<<<<<< HEAD
         <module>web</module>       
-=======
+<!-- 
         <module>betty</module>
         <module>web</module>
         <module>zaphod</module>
->>>>>>> upstream/master
+ -->
     </modules>
 
      <organization>

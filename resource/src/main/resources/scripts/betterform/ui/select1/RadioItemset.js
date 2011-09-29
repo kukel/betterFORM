@@ -106,6 +106,7 @@ dojo.declare(
                 // console.dirxml(item);
 
                 dojo.place(item, labelNode);
+		console.debug("item: ", item, " labelNode: ", labelNode);
             }
         }
 

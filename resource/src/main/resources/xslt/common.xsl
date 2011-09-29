@@ -479,7 +479,8 @@
 		</xsl:choose>
     </xsl:template>
     
-        <!-- Create label value and take xml:lang attribute into account -->
+        <!-- Create hint value and take xml:lang attribute into account -->
+        <!-- Identical to label, so maybe combine or create a generic template-->
     <xsl:template name="create-hint">
     	<xsl:param name="hint-elements"/>
             	<xsl:choose>
