@@ -211,7 +211,8 @@ public class FluxProcessor extends WebProcessor {
                             xmlEvent.addProperty("parentId", parentId);
                         } else if (control instanceof BindingElement) {
                             if(LOGGER.isDebugEnabled()) {
-                                DOMUtil.prettyPrintDOM(control.getElement());
+                            	LOGGER.debug("Binding element:");
+                            	DOMUtil.prettyPrintDOM(control.getElement());
                             }
                             
                             Element bfData = DOMUtil.getChildElement(control.getElement(), NamespaceConstants.BETTERFORM_PREFIX+":data");

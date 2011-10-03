@@ -199,7 +199,7 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
         // console.debug("FluxProcessor.handleUnload Event: ", evt);
         if (this.isDirty && !this.skipshutdown) {
             dojo.stopEvent(evt);
-            // console.log(this.unloadMsg);
+            // console.debug(this.unloadMsg);
             // For IE
             evt.returnValue = this.unloadMsg;
             // For all others
@@ -994,7 +994,7 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
             if (level == "ephemeral") {
             	
                 var growlMessageEnabled = dojo.query(".GrowlMessage" ,dojo.doc)[0];
-                if(growlAlertEnabled != undefined) {
+                if(growlMessageEnabled != undefined) {
                     var ephemeralMessage = new betterform.ui.common._Growl({controlLabel:'Message', message:message, position:this._growlPosition, stack:this._growlStack});
                     ephemeralMessage.show();
                 }

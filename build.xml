@@ -41,7 +41,6 @@
         <delete dir="${target.dir}"/>
         <delete dir="${core.dir}/target"/>
         <delete dir="${web.dir}/target"/>
-        <delete dir="${betty.dir}/target"/>
 
         <delete dir="${basedir}/XRX/target"/>
         <delete dir="${basedir}/XRX/target-utils"/>
@@ -58,8 +57,7 @@
     <!-- **************************************** BUILDING JAR **************************************** -->
     <target name="package" description="package core, web and betty" depends="check-ant-version" if="antversion">
         <ant antfile="${core.dir}/build.xml" target="package" dir="${core.dir}" inheritall="false"/>
-        <ant antfile="${web.dir}/build.xml"  target="package" dir="${web.dir}"  inheritall="false"/>
-        <ant antfile="${betty.dir}/build.xml"  target="package" dir="${betty.dir}"  inheritall="false"/>
+        <ant antfile="${web.dir}/build.xml"  target="deploy-exploded" dir="${web.dir}"  inheritall="false"/>
     </target>
 
     <target  name="create-src-distribution">

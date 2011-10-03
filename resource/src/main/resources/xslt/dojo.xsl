@@ -693,7 +693,7 @@
         </xsl:variable>
 
 		<xsl:if test="$incrementaldelay ne '0'">
-			 <xsl:message><xsl:value-of select="concat(' incremental-delay: ', $incrementaldelay)" /></xsl:message>
+			 <!-- xsl:message><xsl:value-of select="concat(' incremental-delay: ', $incrementaldelay)" /></xsl:message-->
 		</xsl:if>
         <xsl:variable name="navindex" select="if (exists(@navindex)) then @navindex else '0'"/>
         <xsl:variable name="accesskey" select="if (exists(@accesskey)) then @accesskey else 'none'"/>

@@ -133,6 +133,15 @@ dojo.declare(
                 }, sourceNode);
 
         } else {
+        	if (datatype == "" || datatype == undefined) { 
+        		console.warn("Upload (" + controlId+"): unsupported datatype: ", datatype);
+        		console.warn("Likely due to non-existing instance node and the datatype not being decided based on the bind");
+        		return new betterform.ui.upload.UploadPlain({
+                    "class":classValue,
+                    title:dojo.attr(sourceNode,"title"),
+                    xfControlId:controlId
+                }, sourceNode);
+        	}
             console.error("Upload (" + controlId+"): unsupported datatype: ", datatype);
             return null;
         }

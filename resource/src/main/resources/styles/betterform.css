@@ -984,7 +984,7 @@ td > div.bfPending > span {
 
 .growlMessage p {
     /*        B   R  O     L  */
-    padding: 0px 0px 10px 20px;
+    padding: 15px 0px 0px 20px;
     line-height: 1.1em;
     color: #7F7F7F;
     float:left;
@@ -995,14 +995,14 @@ td > div.bfPending > span {
 }
 
 .growlMessage div.icon {
+    background-image: url("../images/alert-hand-50.png");
+    display: inline;
+    float: right;
     height: 50px;
+    position: relative;
+    right: 10px;
+    top: 10px;
     width: 50px;
-    display:inline;
-    float:right;
-    background-image:url("../images/alert-hand-50.png");
-    margin-bottom: 5px;
-    margin-right: 5px;
-
 }
 
 .growlMessage .header {
@@ -1018,14 +1018,18 @@ td > div.bfPending > span {
 }
 
 .growlMessage .header div.close {
+    background-image: url("../images/001_05-20.png");
+    display: inline-block;
+    float: right;
     height: 20px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
     width: 20px;
-    top: 0px;
-    top: position-static;
-    display:inline-block;
-    float:right;
-    position:relative;
-    background-image:url("../images/001_05-20.png");
+}
+
+.growlMessage .header .title {
+    width: 80%;
 }
 
 
