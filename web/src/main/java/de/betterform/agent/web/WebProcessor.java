@@ -459,6 +459,22 @@ public class WebProcessor extends AbstractProcessorDecorator {
         response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/" +
                 configuration.getProperty(WebFactory.ERROPAGE_PROPERTY)));
     }
+    
+    public void close() {
+        // attempt to shutdown processor
+        if (this.xformsProcessor != null) {
+            try {
+                this.xformsProcessor.shutdown();
+            } catch (XFormsException xfe) {
+                WebProcessor.LOGGER.error("Message: " + xfe.getMessage() + " Cause: " + xfe.getCause());
+            }
+        }
+
+        //remove session from XFormsSessionManager
+        // getManager().deleteXFormsSession(this.key);
+        WebUtil.removeSession(this.key);
+    }
+    
 
     /**
      * passes the betterform-defaults.xml config file to betterForm Processor.

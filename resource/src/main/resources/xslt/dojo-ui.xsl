@@ -331,15 +331,26 @@
 		</xsl:if>
 		<table repeatId="{$repeat-id}" jsId="{$repeat-id}" class="{$repeat-classes}" dojoType="betterform.ui.container.Repeat" appearance="compact" border="0" cellpadding="0" cellspacing="0">
 			<!-- build table header -->
+			<thead>
 			<tr class="xfRepeatHeader">
-				<!-- Do use Prototype for RepeatHeader since that makes labels visible for initially empty nodesets -->
-				<xsl:for-each select="bf:data/xforms:group[@appearance='repeated'][1]">
-					<!-- Old comment: Don´t use Prototype for RepeatHeader but first Repeatitem -->
-					<!--<xsl:for-each select="xforms:group[@appearance='repeated'][1]"> -->
-					<xsl:call-template name="processCompactHeader" />
-				</xsl:for-each>
+				<xsl:choose>
+					<xsl:when test="count(xforms:group[@appearance='repeated']) = 0" >
+					<!-- Do use Prototype for RepeatHeader since that makes labels visible for initially empty nodesets -->
+						<xsl:for-each select="bf:data/xforms:group[@appearance='repeated'][1]">
+							<xsl:call-template name="processCompactHeader" />
+						</xsl:for-each>
+					</xsl:when>
+					<xsl:otherwise>
+						<!-- Old comment: Don´t use Prototype for RepeatHeader but first Repeatitem -->
+						<xsl:for-each select="xforms:group[@appearance='repeated'][1]"> 
+							<xsl:call-template name="processCompactHeader" />
+						</xsl:for-each>
+					</xsl:otherwise>
+				</xsl:choose>
 			</tr>
+			</thead>
 			<!-- loop repeat entries -->
+			<tbody>
 			<xsl:for-each select="xforms:group[@appearance='repeated']">
 				<xsl:variable name="id" select="@id" />
 				<xsl:variable name="repeat-item-classes">
@@ -351,6 +362,7 @@
 					<xsl:call-template name="processCompactChildren" />
 				</tr>
 			</xsl:for-each>
+			</tbody>
 		</table>
 	</xsl:template>
 	<!-- header for compact repeat -->
@@ -358,20 +370,13 @@
 		<xsl:for-each select="xforms:*|bfc:*">
 			<xsl:variable name="col-classes">
 			    <!-- RKU: No disabled in other code -->
-				<xsl:choose>
-					<xsl:when test="./bf:data/@bf:enabled='false'">
-						<xsl:value-of select="concat('bfTableCol-',position(),' ','xfDisabled')" />
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:value-of select="concat('bfTableCol-',position())" />
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:value-of select="concat('bfTableCol-',position())" />
 			</xsl:variable>
-			<td class="{$col-classes}">
+			<th class="{$col-classes}">
 				<xsl:choose>
 					<xsl:when test="self::xforms:*[local-name(.)='trigger' or local-name(.)='submit' or (local-name(.)='output' and @appearance='caLink')][xforms:label]">
 						<xsl:variable name="label-classes">
-							<xsl:call-template name="assemble-label-classes" />
+							<xsl:call-template name="assemble-compact-repeat-label-classes" />
 						</xsl:variable>
 						<label id="{@id}-label-header" class="{$label-classes}">
 							<!-- Needed for IE and Chrome to size the label -->
@@ -381,7 +386,7 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:variable name="label-classes">
-							<xsl:call-template name="assemble-label-classes" />
+							<xsl:call-template name="assemble-compact-repeat-label-classes" />
 						</xsl:variable>
 						<label id="{@id}-label" class="{$label-classes}">
 							<xsl:attribute name="title">
@@ -398,7 +403,7 @@
 						</label>
 					</xsl:otherwise>
 				</xsl:choose>
-			</td>
+			</th>
 		</xsl:for-each>
 	</xsl:template>
 	<!-- prototype for compact repeat -->
@@ -407,7 +412,7 @@
 		<!-- RKU: removed style="display:none" -->
 		<!-- do something with configuring this -->
 		<table>
-			<tr class="xfRepeatHeader">
+			<tr class="xfRepeatHeader 3">
 				<!-- build table header -->
 				<xsl:for-each select="bf:data/xforms:group[@appearance='repeated'][1]">
 				<!-- Don´t use Prototype for RepeatHeader but first Repeatitem -->
@@ -533,7 +538,7 @@
 			<xsl:call-template name="assemble-control-classes" />
 		</xsl:variable>
 		<table id="{$id}" class="{$control-classes} xfRepeated" controlType="{local-name()}" appearance="{@appearance}" dojoAttachEvent='onfocus:_onFocus' repeatId="{$id}">
-			<tr class="xfRepeatHeader">
+			<tr class="xfRepeatHeader 1">
 				<xsl:call-template name="processCompactHeader" />
 			</tr>
 		</table>
@@ -725,10 +730,10 @@
 				<!-- RKU: No disabled in other-->
 				<xsl:choose>
 					<xsl:when test="./bf:data/@bf:enabled='false'">
-						<xsl:value-of select="concat('bfTableCol-',position(),' ','xfDisabled')" />
+						<xsl:value-of select="concat('bfTableCol-',position(),' ','rkuDisabled')" />
 					</xsl:when>
 					<xsl:otherwise>
-						<xsl:value-of select="concat('bfTableCol-',position())" />
+						<xsl:value-of select="concat('bfTableCol-',position(),' ', 'rkuEnabled')" />
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:variable>

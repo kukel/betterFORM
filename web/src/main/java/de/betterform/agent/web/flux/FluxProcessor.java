@@ -210,8 +210,8 @@ public class FluxProcessor extends WebProcessor {
                             String parentId = ((Element) target.getParentNode()).getAttributeNS(null, "id");
                             xmlEvent.addProperty("parentId", parentId);
                         } else if (control instanceof BindingElement) {
-                            if(LOGGER.isDebugEnabled()) {
-                            	LOGGER.debug("Binding element:");
+                            if(LOGGER.isTraceEnabled()) {
+                            	LOGGER.trace("Binding element:");
                             	DOMUtil.prettyPrintDOM(control.getElement());
                             }
                             

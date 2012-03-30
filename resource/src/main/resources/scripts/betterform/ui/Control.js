@@ -80,6 +80,12 @@ dojo.declare(
                 this.dataType = betterform.ui.util.removeNamespace(dojo.attr(controlValueTemplate, "datatype"));
                 this.controlType = dojo.attr(controlValueTemplate, "controltype");
             }
+            //RKU: 18-11-2011
+            // For repeated fields... title is on container and value but not copied over...
+            // Check and add if needed....
+            if(dojo.attr(controlValueTemplate, 'title') == undefined) {
+		        dojo.attr(controlValueTemplate, 'title', dojo.attr(this.domNode, 'title'));
+            }
 
             this.controlValue = fluxProcessor.factory.createWidget(controlValueTemplate, this.id);
 
@@ -378,6 +384,14 @@ dojo.declare(
         // console.debug("_handleSetEnabledProperty  enabled:",enabled, " domNode: ",this.domNode);
         var targetId = this.id;
         var label = dojo.byId(targetId + "-label");
+        
+        //RKU: 18-11-2011
+	    // labelledBy is an alertnative way to find the real displayed corresponding label. 
+	    // Compact repeats only have this at the moment
+        var labelledBy = dojo.attr(this.domNode, "labelledBy");
+        if (labelledBy != undefined) {
+            label = dojo.byId(labelledBy);
+	    }
 
         if (enabled) {
             if (label != undefined) {

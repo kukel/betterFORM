@@ -68,7 +68,7 @@ public class Context extends XFormsFunction {
         XPathFunctionContext functionContext = getFunctionContext(xpathContext);
         XFormsElement xformsElement = functionContext.getXFormsElement();
 
-        DOMUtil.prettyPrintDOM(xformsElement.getElement());
+        //DOMUtil.prettyPrintDOM(xformsElement.getElement());
 
         int pos = 1;
         if (xformsElement instanceof BindingElement) {

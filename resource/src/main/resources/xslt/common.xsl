@@ -278,6 +278,31 @@
         <xsl:value-of select="concat($start,$end)"/>
     </xsl:template>
 
+    <xsl:template name="assemble-compact-repeat-label-classes">
+	    <xsl:variable name="pos"><xsl:value-of select="position()"/></xsl:variable>
+            <xsl:variable name="mip-classes">
+                <xsl:choose>
+                    <xsl:when test="count(../../xf:group/xf:*[position()=$pos]/bf:data[@bf:enabled='true']) gt 0 or ../../xf:group/xf:*[position()=$pos and local-name()='group']">
+                        <xsl:value-of select="'xfEnabled'" />
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:value-of select="'xfDisabled'" />
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:variable>
+        <xsl:for-each select="xf:label[1]">
+            <xsl:variable name="name-classes">
+                <xsl:call-template name="get-name-classes"/>
+            </xsl:variable>
+            <xsl:variable name="author-classes">
+                <xsl:call-template name="get-author-classes"/>
+            </xsl:variable>
+
+            <xsl:value-of select="normalize-space(concat($name-classes, ' ', $mip-classes, ' ', $author-classes))"/>
+        </xsl:for-each>
+    </xsl:template>
+
+
     <xsl:template name="assemble-label-classes">
             <xsl:variable name="mip-classes">
                 <xsl:call-template name="get-mip-classes">
@@ -295,6 +320,7 @@
             <xsl:value-of select="normalize-space(concat($name-classes, ' ', $mip-classes, ' ', $author-classes))"/>
         </xsl:for-each>
     </xsl:template>
+
 
     <xsl:template name="get-mip-classes">
         <xsl:param name="limited" select="false()"/>

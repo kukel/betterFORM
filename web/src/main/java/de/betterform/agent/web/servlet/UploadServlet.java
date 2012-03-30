@@ -73,7 +73,9 @@ public class UploadServlet extends HttpServlet /* extends AbstractXFormsServlet 
                 }
             }
 
-            if(uploadItem != null && !"".equals(relativeUploadPath)) {
+            if(uploadItem.getSize() == 0) {
+            	LOGGER.warn("Ignoring uploading empty file");
+            } else if(uploadItem != null && !"".equals(relativeUploadPath)) {
                 this.uploadFile(request, uploadItem, relativeUploadPath);
             } else if(!"".equals(collectionName) && !"".equals(collectionPath)) {
                 this.createColection(request, collectionName, collectionPath);

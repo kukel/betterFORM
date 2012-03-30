@@ -72,7 +72,7 @@ public class UploadListener implements OutputStreamListener {
         long delta = (System.currentTimeMillis() - startTime) / 1000;
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("status: " + status);
-            LOGGER.debug("Bytes read: " + totalBytesRead);
+            LOGGER.debug("Bytes read: " + totalBytesRead + " from: " + totalToRead);
         }
         request.getSession().setAttribute(WebProcessor.ADAPTER_PREFIX + sessionKey + "-uploadInfo", new UploadInfo(totalFiles, totalToRead, totalBytesRead, delta, status));
     }

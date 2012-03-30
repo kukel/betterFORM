@@ -721,11 +721,12 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
             //if control has no value add CSS class xfRequiredEmpty
             var xfControl = dijit.byId(control.id);
             if(xfControl != undefined){
-                var xfValue = xfControl.getControlValue();
-                if(xfValue == undefined || xfValue == ''){
-                    dojo.addClass(xfControl.domNode,"xfRequiredEmpty");
-
-                }
+		if (xfControl.getControlValue === 'function') {
+                    var xfValue = xfControl.getControlValue();
+               	    if(xfValue == undefined || xfValue == ''){
+                        dojo.addClass(xfControl.domNode,"xfRequiredEmpty");
+                    }
+		}
             }
         });
     },

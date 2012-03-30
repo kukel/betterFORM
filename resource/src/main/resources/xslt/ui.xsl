@@ -255,7 +255,7 @@
                 </xsl:choose>
             </xsl:variable>
 
-            <td valign="top" class="{$col-classes}">
+            <td valign="top" class="{$col-classes}" kukel="true">
                 <xsl:apply-templates select="." mode="compact-repeat"/>
            </td>
         </xsl:for-each>

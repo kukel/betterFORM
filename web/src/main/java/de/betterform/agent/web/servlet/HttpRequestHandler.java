@@ -148,7 +148,7 @@ public class HttpRequestHandler {
             parameters = parseRequest(request);
         }
         catch (Exception e) {
-            throw new XFormsException("could not parse request", e);
+            throw new XFormsException("could not parse request: " + e.getMessage(), e);
         }
         if (parameters[0] != null) {
             processUploadParameters(parameters[0], request);
@@ -416,13 +416,14 @@ public class HttpRequestHandler {
                     if (LOGGER.isDebugEnabled()) {
                         LOGGER.debug("ignoring empty upload " + id);
                     }
-                    // todo: removal ?
+                    request.getSession().setAttribute(WebProcessor.ADAPTER_PREFIX + sessionKey + "-uploadInfo", new UploadInfo(1, 0, 0, 0, "done"));
                 }
 
                 item.delete();
             }
         }
         catch (Exception e) {
+            LOGGER.error("Error processing uploads: " + uploads); 
             throw new XFormsException(e);
         }
     }

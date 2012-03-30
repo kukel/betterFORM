@@ -139,9 +139,14 @@ dojo.declare(
                     if (repeatId != undefined && generatedIds[repeatId] != undefined) {
                         dojo.attr(xfNode, "repeatid", generatedIds[idAtt]);
                     }
-
+                    
                     if (idAtt != undefined && generatedIds[idAtt] != undefined) {
                         dojo.attr(xfNode, "id", generatedIds[idAtt]);
+                        // This is used as a reference from the control to the label
+                        // The label is 'shared' between al controls in a column in a repeat
+                        if(compactRepeat) {
+                            dojo.attr(xfNode,"labelledBy", idAtt+"-label");
+                        }
                 	}
 
                     else if (idAtt != undefined) {
