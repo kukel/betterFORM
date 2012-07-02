@@ -57,7 +57,7 @@
     <!-- **************************************** BUILDING JAR **************************************** -->
     <target name="package" description="package core, web and betty" depends="check-ant-version" if="antversion">
         <ant antfile="${core.dir}/build.xml" target="package" dir="${core.dir}" inheritall="false"/>
-        <ant antfile="${web.dir}/build.xml"  target="deploy-exploded" dir="${web.dir}"  inheritall="false"/>
+        <ant antfile="${web.dir}/build.xml"  target="deploy" dir="${web.dir}"  inheritall="false"/>
     </target>
 
     <target  name="create-src-distribution">

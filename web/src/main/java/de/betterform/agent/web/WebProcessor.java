@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011. betterForm Project - http://www.betterform.de
+ * Copyright (c) 2012. betterFORM Project - http://www.betterform.de
  * Licensed under the terms of BSD License
  */
 
@@ -22,7 +22,7 @@ import de.betterform.xml.xforms.XFormsProcessorImpl;
 import de.betterform.xml.xforms.exception.XFormsException;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Node;
@@ -585,11 +585,22 @@ public class WebProcessor extends AbstractProcessorDecorator {
         String dataPrefix = Config.getInstance().getProperty("betterform.web.dataPrefix");
         generator.setParameter("data-prefix", dataPrefix);
 
+        generator.setParameter("user-agent", request.getHeader("User-Agent"));
         String triggerPrefix = Config.getInstance().getProperty("betterform.web.triggerPrefix");
         generator.setParameter("trigger-prefix", triggerPrefix);
 
         if (LOGGER.isDebugEnabled()) {
-            DOMUtil.prettyPrintDOM(((XFormsProcessorImpl)  this.xformsProcessor).getContainer().getDefaultModel().getDefaultInstance().getInstanceDocument());
+            if ( ((XFormsProcessorImpl)  this.xformsProcessor).getContainer() != null) {
+                try {
+                    if ( ((XFormsProcessorImpl)  this.xformsProcessor).getContainer().getDefaultModel() != null) {
+                        if ( ((XFormsProcessorImpl)  this.xformsProcessor).getContainer().getDefaultModel().getDefaultInstance() != null) {
+                        	DOMUtil.prettyPrintDOM(((XFormsProcessorImpl)  this.xformsProcessor).getContainer().getDefaultModel().getDefaultInstance().getInstanceDocument());
+                        }
+                    }
+                } catch (XFormsException xfe) {
+                    LOGGER.debug(xfe.getMessage());
+                }
+            }
         }
         generator.setParameter("locale", locale);
 //        if(useragent.equals("bfEditor")){

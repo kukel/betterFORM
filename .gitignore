@@ -37,3 +37,4 @@ zaphod/target/*
 ## files to ignore
 tools/installer/betterform-install*
 
+/XRX
