@@ -21,6 +21,8 @@ public interface RefreshView {
     void setRequiredMarker();
     void setValidMarker();
     void setInvalidMarker();
+    void setDifferentMarker();
+    void setIdenticalMarker();
 
     void reset();
 
@@ -33,4 +35,6 @@ public interface RefreshView {
     boolean isOptionalMarked();
     boolean isEnabledMarked();
     boolean isDisabledMarked();
+    boolean isDifferentMarked();
+    boolean isIdenticalMarked();
 }

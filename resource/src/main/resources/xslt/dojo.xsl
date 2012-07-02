@@ -236,7 +236,7 @@
         </xsl:choose>
 
 
-        <script type="text/javascript" src="{concat($contextroot,$scriptPath,'betterform/betterform-Full.js')}">&#160;</script>
+        <script type="text/javascript" src="{concat($contextroot,$scriptPath,'betterform/betterform-Full.js?refresh')}">&#160;</script>
         <xsl:text>
 </xsl:text>
     </xsl:template>

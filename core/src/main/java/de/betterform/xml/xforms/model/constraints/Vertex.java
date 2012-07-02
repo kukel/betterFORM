@@ -50,6 +50,8 @@ public abstract class Vertex {
      * constant for constraint Vertex
      */
     public static final short CONSTRAINT_VERTEX = 5;
+    
+    public static final short CUSTOM_VERTEX = 6;
 
     //    protected Vertex index;
 

@@ -5,6 +5,9 @@
 
 package de.betterform.xml.xforms.model.bind;
 
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Declaration viewport to model items. Provides access to declarations of a
  * model item's properties. 
@@ -98,6 +101,10 @@ public interface DeclarationView {
      * item.
      */
     void setConstraint(String constraint);
+    
+    Map<String, String> getCustomMIPs();
+    
+    void setCustomMIPs(Map<String, String> customMIPs);
 
     /**
      * Returns the <code>p3ptype</code> declaration of a model item.

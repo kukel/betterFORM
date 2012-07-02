@@ -27,10 +27,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.events.EventTarget;
 
 import java.text.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * State keeper utility methods.
@@ -86,6 +89,17 @@ public class UIElementStateUtil {
                 (currentProperties != null && newProperties == null) ||
                 (currentProperties != null && currentProperties[index] != newProperties[index]);
     }
+    
+    public static boolean hasPropertyChanged(Map<String, String> currentCustomProperties, Map<String, String> newCustomProperties, String key) {
+    	boolean hasChanged = false;
+        if ((currentCustomProperties == null && newCustomProperties != null) ||
+                (currentCustomProperties != null && newCustomProperties == null)) { 
+        	hasChanged = true;
+        } else {
+    	hasChanged  = (currentCustomProperties != null && currentCustomProperties.containsKey(key) && currentCustomProperties.get(key) != newCustomProperties.get(key));
+        }
+    	return hasChanged;
+    }
 
     public static boolean hasValueChanged(Object currentValue, Object newValue) {
         if(currentValue instanceof Element && newValue instanceof Element){
@@ -115,7 +129,7 @@ public class UIElementStateUtil {
     }
 
     public static boolean[] getModelItemProperties(ModelItem modelItem) {
-        boolean[] properties = {true, false, false, false};
+        boolean[] properties = {true, false, false, false, false};
         if (modelItem != null) {
             properties[VALID] = modelItem.isValid();
             properties[READONLY] = modelItem.isReadonly();
@@ -125,7 +139,7 @@ public class UIElementStateUtil {
 
         return properties;
     }
-
+    
     public static String getDefaultDatatype(Element element) {
         String prefix = NamespaceResolver.getPrefix(element, NamespaceConstants.XMLSCHEMA_NS);
         return prefix != null ? prefix + ":string" : "string";
@@ -251,7 +265,7 @@ public class UIElementStateUtil {
 
     public static void dispatchBetterFormEvents(BindingElement bindingElement, boolean[] currentProperties, Object currentValue, String currentType, boolean[] newProperties, Object newValue, String newType) throws XFormsException {
         // determine changes
-        Map context = new HashMap();
+        Map<String, Object> context = new HashMap<String, Object>();
         if (hasPropertyChanged(currentProperties, newProperties, VALID)) {
             context.put(UIElementState.VALID_PROPERTY, String.valueOf(newProperties[VALID]));
         }
@@ -275,6 +289,7 @@ public class UIElementStateUtil {
                 context.put("schemaValue", state.getSchemaValue());
             }
         }
+        
         if (hasTypeChanged(currentType, newType)) {
             context.put(UIElementState.TYPE_ATTRIBUTE, newType);
         }
@@ -286,6 +301,33 @@ public class UIElementStateUtil {
             container.dispatch(eventTarget, BetterFormEventNames.STATE_CHANGED, context);
         }
     }
+    
+	public static void dispatchBetterFormCustomMIPEvents(BindingElement bindingElement,
+			Map<String, String> currentCustomProperties,
+			Map<String, String> newCustomProperties)
+			throws XFormsException {
+
+		Set<String> keySet = new HashSet<String>(); 
+		if (currentCustomProperties != null) {
+			keySet.addAll(currentCustomProperties.keySet());
+		}
+		if (newCustomProperties != null) {
+			keySet.addAll(newCustomProperties.keySet());
+		}
+		Map<String, String> customMIP = new HashMap<String, String>();
+		for (String key : keySet) {
+			if (hasPropertyChanged(currentCustomProperties, newCustomProperties, key)) {
+				customMIP.put(key, ""+newCustomProperties.get(key));
+			}
+		}
+		if (!customMIP.isEmpty()) {
+			Container container = bindingElement.getContainerObject();
+			EventTarget eventTarget = bindingElement.getTarget();
+			container.dispatch(eventTarget,
+				BetterFormEventNames.CUSTOM_MIP_TOGGLED, customMIP);
+		}
+
+	}
 
     /**
      * localize a string value depending on datatype and locale

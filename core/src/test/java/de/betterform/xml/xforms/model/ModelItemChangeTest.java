@@ -4,6 +4,9 @@
  */
 package de.betterform.xml.xforms.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.TestCase;
 import de.betterform.xml.xforms.model.XercesElementImpl;
 import de.betterform.xml.xforms.model.XercesNodeImpl;
@@ -38,12 +41,14 @@ public class ModelItemChangeTest extends TestCase {
         assertEquals(false, this.parentItem.getStateChangeView().hasReadonlyChanged());
         assertEquals(false, this.parentItem.getStateChangeView().hasRequiredChanged());
         assertEquals(false, this.parentItem.getStateChangeView().hasEnabledChanged());
+        //assertEquals(false, this.parentItem.getStateChangeView().hasDiffChanged());
 
         assertEquals(false, this.modelItem.getStateChangeView().hasValueChanged());
         assertEquals(false, this.modelItem.getStateChangeView().hasValidChanged());
         assertEquals(false, this.modelItem.getStateChangeView().hasReadonlyChanged());
         assertEquals(false, this.modelItem.getStateChangeView().hasRequiredChanged());
         assertEquals(false, this.modelItem.getStateChangeView().hasEnabledChanged());
+        //assertEquals(false, this.parentItem.getStateChangeView().hasDiffChanged());
     }
 
     /**
@@ -104,6 +109,13 @@ public class ModelItemChangeTest extends TestCase {
         assertRequiredChange(true, false, true);
         assertRequiredChange(false, true, true);
         assertRequiredChange(false, false, false);
+    }
+    
+    public void testCustomMIPChange() throws Exception {
+        assertCustomMIPChange(true, true, false);
+        assertCustomMIPChange(true, false, true);
+        assertCustomMIPChange(false, true, true);
+        assertCustomMIPChange(false, false, false);
     }
 
     /**
@@ -219,6 +231,21 @@ public class ModelItemChangeTest extends TestCase {
         this.parentItem.getLocalUpdateView().setLocalRelevant(parentAfter);
         this.modelItem.getLocalUpdateView().setLocalRelevant(localAfter);
         assertEquals(expected, this.modelItem.getStateChangeView().hasEnabledChanged());
+    }
+    
+    private void assertCustomMIPChange(boolean localBefore, boolean localAfter, boolean expected) {
+    	
+    	Map<String, Boolean> custom = new HashMap<String, Boolean>();
+    	custom.put("diff", localBefore);
+    	
+        this.modelItem.getLocalUpdateView().setCustomMIPValues(custom);
+        this.modelItem.getStateChangeView().reset();
+
+        Map<String, Boolean> custom2 = new HashMap<String, Boolean>();
+    	custom2.put("diff", localAfter);
+    	
+        this.modelItem.getLocalUpdateView().setCustomMIPValues(custom2);
+        assertEquals(expected, this.modelItem.getStateChangeView().hasCustomMIPChanged("diff"));
     }
 
 }

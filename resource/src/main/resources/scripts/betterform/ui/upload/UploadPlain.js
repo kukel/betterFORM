@@ -6,6 +6,7 @@
 dojo.provide("betterform.ui.upload.UploadPlain");
 
 dojo.require("dojo.NodeList-fx");
+dojo.require("dijit.Dialog");
 
 dojo.declare(
         "betterform.ui.upload.UploadPlain",
@@ -18,6 +19,7 @@ dojo.declare(
     disabledNodes: new Array(),
     progress: null,
     progressBackground: null,
+    progressDialog: null,
     fileId:"",
     fileValue:"",
     xfControlId:"",
@@ -44,6 +46,7 @@ dojo.declare(
         dojo.attr(this.fileName, "id", uploadFileId);
         dojo.attr(this.fileName, "value", uploadFileValue);
         dojo.removeClass(this.domNode, "xfValue");
+        dojo.place(this.progressDialog, dojo.body());
 
     },
 
@@ -91,10 +94,11 @@ dojo.declare(
             // console.debug("stopped polling");
             this.progressBackground.style.width = "100%";
             dojo.fadeOut({
-                node: this.progress,
+                node: this.progressDialog,
                 duration:2000,
                 onEnd: dojo.hitch(this,function() {
-                    this.progress.style.display="none";
+                    this.progressDialog.style.display="none";
+                    dojo.body().style.overflow="auto";
                 })
             }).play();
 
@@ -116,7 +120,11 @@ dojo.declare(
                 dojo.attr(item, "disabled", "disabled");
             }
         });
-
+        dojo.body().style.overflow="hidden";
+        this.progressDialog.style.display="block";
+        this.progressDialog.style.opacity="0.9";
+        this.progressDialog.style.width=  dojo.body().clientWidth + 'px';
+        this.progressDialog.style.height= dojo.body().clientHeight+ 'px';
         /* Effect.BlindDown(this.xformsId + "-progress"); */
         this.progress.style.display="block";
         this.progress.style.opacity="1";
@@ -124,7 +132,7 @@ dojo.declare(
         var filename = path.substring(path.lastIndexOf("/") + 1);
         // console.debug("Upload: npath: ", path, " filename:", filename);
         //polling betterForm for update information and submit the form
-        this.progressUpdate = setInterval("fluxProcessor.fetchProgress('" + this.xfControlId + "','" + filename + "')", 500);
+        this.progressUpdate = setInterval("fluxProcessor.fetchProgress('" + this.xfControlId + "','" + filename + "')", 1000);
 
         document.forms["betterform"].target = "UploadTarget";
         document.forms["betterform"].submit();

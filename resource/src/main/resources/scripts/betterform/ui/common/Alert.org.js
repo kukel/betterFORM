@@ -26,7 +26,7 @@ dojo.declare("betterform.ui.common.Alert",
             return; 
         }
         
-        var controlValueIsEmpty = (!(typeof control.getControlValue === 'function') || control.getControlValue() == '') && !(dojo.hasClass(control.domNode, "xsdBoolean")); 
+        var controlValueIsEmpty = (control.getControlValue() == undefined || control.getControlValue() == '') && !(dojo.hasClass(control.domNode, "xsdBoolean")); 
         
         if(action == "init") {
             // do nothing on init
@@ -44,9 +44,9 @@ dojo.declare("betterform.ui.common.Alert",
             console.info("Alert.handleValid: action:'", action , "' unknown, commonChild handling for control '", id, "', execution stopped");
         }
 
-//        if(dojo.hasClass(control.domNode,"bfInvalidControl")) {
-//            dojo.removeClass(control.domNode,"bfInvalidControl");
-//        }
+        if(dojo.hasClass(control.domNode,"bfInvalidControl")) {
+            dojo.removeClass(control.domNode,"bfInvalidControl");
+        }
     },
 
     handleInvalid:function(id,action) {
@@ -59,25 +59,24 @@ dojo.declare("betterform.ui.common.Alert",
             return;
         }
 
-        var controlValueIsEmpty = (!(typeof control.getControlValue === 'function') || control.getControlValue() == undefined || control.getControlValue() == '') && !(dojo.hasClass(control.domNode, "xsdBoolean"));
+        var controlValueIsEmpty = (control.getControlValue() == undefined || control.getControlValue() == '') && !(dojo.hasClass(control.domNode, "xsdBoolean"));
 
         if(dojo.byId(id + "-" + this.alert) == undefined || action == "init" || action == "changeAlertType") {
             return;
         }
 
-		// Maybe comment out in tootipalert??? 
-		// Added submitError to prevent a abundance of errors
-        else if((action == "xfDisabled"|| action =="onBlur" || action =="applyChanges" || action == "submitError") && controlValueIsEmpty) {
+/*
+        else if((action == "xfDisabled"|| action =="onBlur" || action =="applyChanges") && controlValueIsEmpty) {
             this._displayNone(id,action);
         }
+*/
 
         else if(action == "onFocus" && (controlValueIsEmpty || this.alwaysShowHint != undefined) ) {
             this._displayHint(id,action);
             return;
         }
         //##### SHOW ALERT #######
-        // removed 'xfDisabled'... 
-        else if(action == "onFocus" || action =="onBlur" || action =="applyChanges" || action == "submitError"){
+        else if(action == "onFocus" || action == "xfDisabled"|| action =="onBlur" || action =="applyChanges" || action == "submitError"){
             this._displayAlert(id,action);
         }
 
@@ -92,9 +91,9 @@ dojo.declare("betterform.ui.common.Alert",
             console.info("Alert.handleInvalid: action:'", action , "' unknown, commonChild handling for control '", id, "', execution stopped");
         }
 
-//        if(!dojo.hasClass(control.domNode,"bfInvalidControl")) {
-//            dojo.addClass(control.domNode,"bfInvalidControl");
-//        }
+        if(!dojo.hasClass(control.domNode,"bfInvalidControl")) {
+            dojo.addClass(control.domNode,"bfInvalidControl");
+        }
     },
 
     _displayAlert:function(id,action) {

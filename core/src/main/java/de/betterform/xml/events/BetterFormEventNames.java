@@ -112,6 +112,9 @@ public interface BetterFormEventNames {
      * Interaction event constant, might move to XFormsEventNames for XForms 1.2
      */
     String SHOW = "betterform-dialog-open";
+    
+    
+    String CUSTOM_MIP_TOGGLED  = "betterform-custom-mip-toggled";
 
 
     String AVT_CHANGED = "betterform-AVT-changed";

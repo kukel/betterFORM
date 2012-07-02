@@ -695,9 +695,7 @@
 				<xsl:when test="string-length(@appearance) &gt;0">
 					<xsl:value-of select="@appearance" />
 				</xsl:when>
-				<xsl:otherwise>
-					full
-				</xsl:otherwise>
+				<xsl:otherwise>full</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
 		<xsl:variable name="control-classes">

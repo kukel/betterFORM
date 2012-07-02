@@ -82,6 +82,12 @@ public class XPathCache {
         throws XFormsException {
         return XPathUtil.getAsBoolean(evaluate(context.getNodeset(), context.getPosition(), xpathString, context.getPrefixMapping(), context.getXPathFunctionContext()), 1);
     }
+    
+    public static Boolean staticEvaluateAsBoolean(BetterFormXPathContext context, String xpathString)
+            throws XFormsException {
+            return XPathUtil.getAsBoolean(evaluate(context.getNodeset(), context.getPosition(), xpathString, context.getPrefixMapping(), context.getXPathFunctionContext()), 1);
+        }
+
 
     public Boolean evaluateAsBoolean(List nodeset, int position, String xpathString, Map prefixMapping, XPathFunctionContext functionContext)
         throws XFormsException {
@@ -129,7 +135,7 @@ public class XPathCache {
     /**
      *
      */
-    public List evaluate(List nodeset, int position, String xpathString, Map prefixMapping, XPathFunctionContext functionContext)
+    public static List evaluate(List nodeset, int position, String xpathString, Map prefixMapping, XPathFunctionContext functionContext)
         throws XFormsException {
         if (nodeset != null && nodeset.size() < position) {
             return Collections.EMPTY_LIST;
@@ -179,7 +185,7 @@ public class XPathCache {
      * @return
      * @throws XPathException
      */
-    public XPathExpression getXPathExpression(String xpathString, Map prefixMapping, Configuration configuration) throws XPathException {
+    public static XPathExpression getXPathExpression(String xpathString, Map prefixMapping, Configuration configuration) throws XPathException {
         XPathEvaluator xpe = new XPathEvaluator(configuration);
 
         IndependentContext independentContext = (IndependentContext) xpe.getStaticContext();

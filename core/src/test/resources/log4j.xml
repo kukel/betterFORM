@@ -51,6 +51,42 @@
         <priority value="ERROR"/>
     </category>
 
+    <category name="de.betterform.xml.xforms.Container">    
+        <priority value="DEBUG"/>
+    </category>
+    
+    <category name="de.betterform.xml.events.impl.DefaultXMLEventService">    
+        <priority value="DEBUG"/>
+    </category>
+    
+    <category name="de.betterform.xml.xforms.ui.state">    
+        <priority value="DEBUG"/>
+    </category>
+    
+    <category name="de.betterform.xml.xforms.model.bind.RefreshView">    
+        <priority value="DEBUG"/>
+    </category>
+    
+    <category name="de.betterform.xml.xforms.model.bind.impl.RefreshViewImpl">    
+        <priority value="DEBUG"/>
+    </category>
+    
+    <category name="de.betterform.xml.xforms.model.Model">
+        <priority value="ERROR"/>
+    </category>
+    
+    <category name="de.betterform.xml.xforms.model.constraints.DiffVertex">
+        <priority value="DEBUG"/>
+    </category>
+    
+    <category name="de.betterform.xml.xforms.model.constraints.DependencyGraph">
+        <priority value="DEBUG"/>
+    </category>
+    
+    <category name="de.betterform.xml.xforms.model.constraints.MainDependencyGraph]">
+        <priority value="DEBUG"/>
+    </category>
+
     <root>
         <priority value="ERROR"/>
         <appender-ref ref="SHELL"/>

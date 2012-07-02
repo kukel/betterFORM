@@ -86,7 +86,6 @@ public class FluxProcessor extends WebProcessor {
         this.root.addEventListener(BetterFormEventNames.SCRIPT_ACTION, this, true);
         this.root.addEventListener(BetterFormEventNames.AVT_CHANGED, this, true);
 
-		//TODO, see where BetterFormEventNames.SHOW/HIDE should be added? Lars: moved to WebProcessor		
     }
 
 

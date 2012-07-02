@@ -32,6 +32,8 @@ public class RefreshViewImpl implements RefreshView {
     private boolean requiredMarker;
     private boolean enabledMarker;
     private boolean disabledMarker;
+    private boolean differsMarker;
+    private boolean identicalMarker;
 
     /**
      * marks events for dispatch during xforms-refresh processing
@@ -116,6 +118,22 @@ public class RefreshViewImpl implements RefreshView {
             LOGGER.debug("invalid MIP marked for dispatching for " + DOMUtil.getCanonicalPath((Node) this.modelItem.getNode()));
         }
     }
+    
+    public void setDifferentMarker() {
+    	this.identicalMarker = false;
+    	this.differsMarker = true;
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("'differs' MIP marked for dispatching for " + DOMUtil.getCanonicalPath((Node) this.modelItem.getNode()));
+        }
+    }
+
+    public void setIdenticalMarker() {
+        this.differsMarker = false;
+        this.identicalMarker = true;
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("'identical' MIP marked for dispatching for " + DOMUtil.getCanonicalPath((Node) this.modelItem.getNode()));
+        }
+    }
 
     /**
      * Resets all state changes so that no changes are reported.
@@ -130,6 +148,8 @@ public class RefreshViewImpl implements RefreshView {
         this.requiredMarker = false;
         this.enabledMarker = false;
         this.disabledMarker = false;
+        this.differsMarker = false;
+        this.identicalMarker = false;
     }
 
     public boolean isValueChangedMarked() {
@@ -177,6 +197,14 @@ public class RefreshViewImpl implements RefreshView {
 
     public boolean isOptionalMarked() {
         return this.optionalMarker ? true : false;
+    }
+    
+    public boolean isDifferentMarked() {
+        return this.differsMarker ? true : false;
+    }
+
+    public boolean isIdenticalMarked() {
+        return this.identicalMarker ? true : false;
     }
 
     private boolean inheritsReadWriteMip() {

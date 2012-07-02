@@ -86,7 +86,7 @@ public class XFormsRepeater extends HttpServlet {
             webFactory.initConfiguration(useragent);
             webFactory.initLogging(getClass());
             webFactory.initTransformerService(getServletContext().getRealPath("."));
-            webFactory.initXFormsSessionCache();
+            //webFactory.initXFormsSessionCache();
 
         } catch (XFormsConfigException e) {
             throw new ServletException(e);

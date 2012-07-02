@@ -5,6 +5,8 @@
 
 package de.betterform.xml.xforms.model;
 
+import java.util.Map;
+
 import de.betterform.xml.xforms.model.bind.DeclarationView;
 import de.betterform.xml.xforms.model.bind.LocalUpdateView;
 import de.betterform.xml.xforms.model.bind.RefreshView;
@@ -95,6 +97,8 @@ public interface ModelItem {
      * @return the computed <code>valid</code> state.
      */
     boolean isValid();
+    
+    //Map<String, Boolean> getCustomMIPValues(); 
 
     /**
      * Returns the value of this model item.
@@ -168,5 +172,5 @@ public interface ModelItem {
     public Model getModel();
 
     public String toString();
-
+    
 }

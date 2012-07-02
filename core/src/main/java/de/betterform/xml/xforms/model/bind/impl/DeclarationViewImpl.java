@@ -5,6 +5,8 @@
 
 package de.betterform.xml.xforms.model.bind.impl;
 
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import de.betterform.xml.xforms.model.bind.DeclarationView;
@@ -24,6 +26,7 @@ public class DeclarationViewImpl implements DeclarationView {
     private String relevant;
     private String calculate;
     private String constraint;
+    private Map<String,String> customMIPs;
     private String p3ptype;
 
     /**
@@ -146,6 +149,22 @@ public class DeclarationViewImpl implements DeclarationView {
     public void setConstraint(String constraint) {
         this.constraint = constraint;
     }
+    
+    public Map<String, String> getCustomMIPs() {
+        return this.customMIPs;
+    }
+
+    /**
+     * Sets the <code>constraint</code> declaration of a model item.
+     *
+     * @param constraint the <code>constraint</code> declaration of a model
+     * item.
+     */
+    public void setCustomMIPs(Map<String, String>  customMIPs) {
+        this.customMIPs = customMIPs;
+    }
+    
+        
 
     /**
      * Returns the <code>p3ptype</code> declaration of a model item.

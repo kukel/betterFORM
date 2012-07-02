@@ -36,8 +36,7 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
     _earlyTemplatedStartup:true,
     widgetsInTemplate:true,
     usesDOMFocusIN:false,
-    _growlPosition:null,
-    _growlStackAdd:null,
+
 
     /*
      keepAlive: function() {
@@ -95,32 +94,7 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
             dojo.require("betterform.ui.common.InlineAlert");
             this.defaultAlertHandler = new betterform.ui.common.InlineAlert({});
             console.debug("Enabled InlineAlert Handler ", this.defaultAlertHandler);
-        }
-        
-        var growlAlertEnabled = dojo.query(".GrowlAlert" ,dojo.doc)[0];
-        if(growlAlertEnabled != undefined) {
-            this._growlPosition = "top";
-            this._growlStack = undefined;
-            dojo.require("betterform.ui.common.GrowlAlert");
-            dojo.require("betterform.ui.common._Growl");
-            
-            var growl = dojo.attr(growlAlertEnabled, "alert");
-            if (growl != undefined) {
-            	if (growl.length >=8) {
-            		this._growlPosition = growl.substr(0,3).toLowerCase();
-            	}
-            	if (growl.length >= 11) {
-            		this._growlStack = growl.substr(3,3).toLowerCase();
-            	}
-            }
-            if (this._growlStack == undefined) {
-                // default stacking for bottom position: top, for others: bottom
-                this._growlStack = this._growlPosition=="btm" ? "top" : "btm";
-            }
-            // console.debug("Growl position: "+ position + ", stack: " + stack );
-            this.defaultAlertHandler = new betterform.ui.common.GrowlAlert({position: this._growlPosition, stack: this._growlStack });
-            // console.debug("Enabled GrowlAlert Handler ", this.defaultAlertHandler);
-            growlAlertEnabled=undefined;
+
         }
 
         var toolTipAlertEnabled = dojo.query(".ToolTipAlert", dojo.doc)[0];
@@ -593,7 +567,6 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
                             case "DOMFocusIn"                    : fluxProcessor.lastServerClientFocusEvent = {postponedFunction:fluxProcessor._handleDOMFocusIn, postponedXmlEvent:xmlEvent}; break;    //cache the xmlEvent for being processed later
                             case "xforms-out-of-range"           : fluxProcessor._handleOutOfRange(xmlEvent);break;
                             case "xforms-in-range"               : fluxProcessor._handleInRange(xmlEvent);break;
-                            case "betterform-custom-mip-changed" : fluxProcessor._handleCustomMIPChanged(xmlEvent);break;
                             case "xforms-invalid"                :
                             case "xforms-valid"                  :validityEvents[index] = xmlEvent; index++;break;
 
@@ -721,11 +694,12 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
         dojo.query(".xfRequired", dojo.doc).forEach(function(control) {
             //if control has no value add CSS class xfRequiredEmpty
             var xfControl = dijit.byId(control.id);
-            if( xfControl != undefined && (typeof xfControl.getControlValue === 'function')) {
-                    var xfValue = xfControl.getControlValue();
-               	    if(xfValue == undefined || xfValue == ''){
-                        dojo.addClass(xfControl.domNode,"xfRequiredEmpty");
-                    }
+            if(xfControl != undefined){
+                var xfValue = xfControl.getControlValue();
+                if(xfValue == undefined || xfValue == ''){
+                    dojo.addClass(xfControl.domNode,"xfRequiredEmpty");
+
+                }
             }
         });
     },
@@ -992,16 +966,8 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
         if (this.webtest != 'true') {
 
             if (level == "ephemeral") {
-            	
-                var growlMessageEnabled = dojo.query(".GrowlMessage" ,dojo.doc)[0];
-                if(growlMessageEnabled != undefined) {
-                    var ephemeralMessage = new betterform.ui.common._Growl({controlLabel:'Message', message:message, position:this._growlPosition, stack:this._growlStack});
-                    ephemeralMessage.show();
-                }
-                else {
-                	dijit.byId("betterformMessageToaster").setContent(message, 'message');
-                	dijit.byId("betterformMessageToaster").show();
-                }
+                dijit.byId("betterformMessageToaster").setContent(message, 'message');
+                dijit.byId("betterformMessageToaster").show();
             }
             else {
                 var exception = xmlEvent.contextInfo.exception;
@@ -1082,21 +1048,6 @@ dojo.declare("betterform.FluxProcessor", betterform.XFormsProcessor,
                 dojo.removeClass(uiControl, "xfOutOfRange");
             }
             dojo.addClass(uiControl, "xfInRange");
-        }
-    },
-    
-    _handleCustomMIPChanged:function(xmlEvent) {
-    	console.debug("FluxProcessor._handleCustomMIPChanged xlmEvent:", xmlEvent);
-    	console.info("FluxProcessor._handleCustomMIPChanged xlmEvent:", xmlEvent);
-        var uiControl = dojo.byId(xmlEvent.contextInfo.targetId + "-value");
-        if (uiControl != undefined) {
-            if (dojo.hasClass(uiControl, "bfDiffTrue")) {
-                dojo.removeClass(uiControl, "bfDiffTrue");
-                dojo.addClass(uiControl, "bdDiffFalse");
-            } else if (dojo.hasClass(uiControl, "bfDiffFalse")) {
-                dojo.removeClass(uiControl, "bfDiffFalse");
-                dojo.addClass(uiControl, "bdDiffTrue");
-            }
         }
     },
 

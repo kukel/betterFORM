@@ -34,6 +34,7 @@ public class ConstraintsTest extends BetterFormTestCase {
      */
     public void testConstraintWithPredicate() throws XFormsException {
         Model model = getDefaultModel();
+        
         assertEquals(false, model.getDefaultInstance().getModelItem(evaluateInDefaultContextAsNode("/data/e")).getLocalUpdateView().isConstraintValid());
 
         model.getDefaultInstance().setNodeValue(evaluateInDefaultContextAsNode("/data/e/f[1]/g"), "test");

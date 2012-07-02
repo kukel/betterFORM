@@ -5,6 +5,9 @@
 
 package de.betterform.xml.xforms.ui.state;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import de.betterform.xml.dom.DOMUtil;
@@ -28,6 +31,7 @@ public class BoundElementState implements UIElementState {
     private BindingElement owner;
     protected Element state;
     private boolean[] currentProperties;
+    private Map<String, String> currentCustomProperties;
     private String currentType;
     private Object currentValue;
     private boolean dispatchValueChange;
@@ -89,6 +93,7 @@ public class BoundElementState implements UIElementState {
             this.currentProperties = properties;
 
             if (modelItem != null) {
+            	
                 // set types
                 if (this.handleTypes) {
                     String datatype = UIElementStateUtil.getDatatype(modelItem, this.owner.getElement());
@@ -118,7 +123,16 @@ public class BoundElementState implements UIElementState {
                     value = UIElementStateUtil.localiseValue(this.owner,this.state,this.currentType,value);
 	                DOMUtil.setElementValue(this.state, value);
 	                this.currentValue = value;
-                }  
+                }
+                
+                this.currentCustomProperties = new HashMap<String, String>();
+                this.currentCustomProperties.putAll(modelItem.getLocalUpdateView().getCustomMIPValues());
+				if (this.currentCustomProperties != null) {
+					for (String key : this.currentCustomProperties.keySet()) {
+						UIElementStateUtil.setStateAttribute(this.state,
+								key, this.currentCustomProperties.get(key));
+					}
+				}
             }
         } else {
            modelItem = UIElementStateUtil.getModelItem(this.owner);
@@ -224,10 +238,26 @@ public class BoundElementState implements UIElementState {
             // reset automatically to avoid incosistencies
             this.dispatchValueChange = true;
         }
-
+        
         //store properties and value
         this.currentProperties = properties;
         this.currentValue = value;
+
+        //RKU
+		if (modelItem != null) {
+			Map<String, String> customProperties = modelItem.getLocalUpdateView()
+					.getCustomMIPValues();
+			if (customProperties != null) {
+
+				UIElementStateUtil.dispatchBetterFormCustomMIPEvents(
+						this.owner, this.currentCustomProperties,
+						customProperties);
+				this.currentCustomProperties = new HashMap<String, String>();
+				this.currentCustomProperties.putAll(customProperties);
+			}
+		}
+
+
     }
 
     /**
@@ -277,6 +307,7 @@ public class BoundElementState implements UIElementState {
         UIElementStateUtil.setStateAttribute(this.state, READONLY_PROPERTY, String.valueOf(properties[UIElementStateUtil.READONLY]));
         UIElementStateUtil.setStateAttribute(this.state, REQUIRED_PROPERTY, String.valueOf(properties[UIElementStateUtil.REQUIRED]));
         UIElementStateUtil.setStateAttribute(this.state, ENABLED_PROPERTY, String.valueOf(properties[UIElementStateUtil.ENABLED]));
+        
     }
 
 

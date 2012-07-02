@@ -14,7 +14,7 @@ dojo.declare("betterform.ui.common.ToolTipAlert",
     hideSpeed:1000,
 
     _show:function(id, commonChild,action) {
-        //console.debug("ToolTipAlert._show: [id:" + id , " commonChild: " + commonChild + "]");
+        // console.debug("ToolTipAlert._show: [id:" + id , " commonChild: " + commonChild + "]");
         var commonChildNode = dojo.byId(id + '-' + commonChild);
 
         if(commonChild != undefined && commonChild == this.hint) {
@@ -34,36 +34,19 @@ dojo.declare("betterform.ui.common.ToolTipAlert",
             }
 
             var controlValue = dijit.byId(id+"-value");
-            if (controlValue != undefined) {
+            var controlValueIsEmpty = (controlValue.getControlValue() == undefined || controlValue.getControlValue() == '') && !(dojo.hasClass(controlValue.domNode, "xsdBoolean"));
 
-            	var controlValueIsEmpty = (!(typeof controlValue.getControlValue === 'function') || controlValue.getControlValue() == undefined || controlValue.getControlValue() == '') && !(dojo.hasClass(controlValue.domNode, "xsdBoolean"));
-            	if (controlValueIsEmpty) {
-            		return;
-            	} else {
-            		// Something with datetime...
-            		console.debug("Unexpected value?!" + controlValue.getControlValue());	
-            	}
-            }
+            alertTooltip.show(commonChildNode.innerHTML, dojo.byId(id+"-value"));
 
-            if (controlValue != undefined && controlValue != null) {
-            	alertTooltip.show(commonChildNode.innerHTML, dojo.byId(id+"-value"));
-                dojo.style(alertTooltip.domNode, "opacity", "1");
-                dojo.style(alertTooltip.domNode, "cursor", "pointer");
-                dojo.addClass(alertTooltip.domNode, "bfToolTipAlert");
-            	//dojo.addClass(controlValue.domNode, "bfInvalidControl");
-            } else {
-            	console.warn("ToolTipAlert._show: NOT Showing: " + dojo.byId(id+"-label"));
-            	// FIX ME!!! Needs to be done in hide as well... And moved to Alert.js maybe?
-            	// And put at 'label' and make sure label is not to wide??? Or is that a design issue?
-            	// IT IS
-            	//alertTooltip.show(commonChildNode.innerHTML, dojo.byId(id+"-label"));
-            	//dojo.addClass(dojo.byId(id), "bfInvalidControl");
-            }
+            dojo.style(alertTooltip.domNode, "opacity", "1");
+            dojo.style(alertTooltip.domNode, "cursor", "pointer");
+            dojo.addClass(alertTooltip.domNode, "bfToolTipAlert");
+            dojo.addClass(controlValue.domNode, "bfInvalidControl");
 
-        if (action == "applyChanges" && (!controlValueIsEmpty || dojo.hasClass(controlValue.domNode, "xsdBoolean"))) {
+/*        if (action == "applyChanges" && (!controlValueIsEmpty || dojo.hasClass(controlValue.domNode, "xsdBoolean"))) {
             setTimeout(dojo.hitch(this,function() {this._fadeOutAndHide(id,commonChild)}),this.displayDuration);
           }
-
+*/
         }
     },
 

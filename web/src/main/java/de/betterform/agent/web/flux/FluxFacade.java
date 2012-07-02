@@ -219,39 +219,56 @@ public class FluxFacade {
      */
 
     public List<XMLEvent> fetchProgress(String id, String filename, String sessionKey) {
-        String progress;
-        UploadInfo uploadInfo;
-
-        if (session != null && session.getAttribute(WebProcessor.ADAPTER_PREFIX + sessionKey + "-uploadInfo") != null) {
-            uploadInfo = (UploadInfo) session.getAttribute(WebProcessor.ADAPTER_PREFIX + sessionKey + "-uploadInfo");
-
-            if (uploadInfo.isInProgress()) {
-                double p = uploadInfo.getBytesRead() / uploadInfo.getTotalSize();
-
-                progress = p + "";
-                float total = uploadInfo.getTotalSize();
-                float read = uploadInfo.getBytesRead();
-                int iProgress = (int) Math.ceil((read / total) * 100);
-                if (iProgress < 100) {
-                    progress = Integer.toString(iProgress);
-                } else {
-                    uploadInfo.setStatus("completed");
-                    progress = "100";
-                }
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("Bytes total: " + uploadInfo.getTotalSize());
-                    LOGGER.debug("Bytes read: " + uploadInfo.getBytesRead());
-                    LOGGER.debug("elapsed time: " + uploadInfo.getElapsedTime());
-                    LOGGER.debug("status: " + uploadInfo.getStatus());
-                    LOGGER.debug("Percent completed: " + Math.ceil((read / total) * 100));
-                }
-            } else {
-                progress = "100";
-            }
-        } else {
-            //if session info is not found for some reason return 100 for safety which allows to exit
-            //javascript polling of progress info
-            progress = "100";
+        String progress = null;
+        //HashMap<String, UploadInfo> uploadInfoList;
+        int retries = 0;
+        boolean found = false;
+        
+        while (!found && retries < 3) {
+	        if (session != null && session.getAttribute(WebProcessor.ADAPTER_PREFIX + sessionKey + "-uploadInfo") != null) {
+	           //uploadInfoList = (HashMap<String, UploadInfo>) session.getAttribute(WebProcessor.ADAPTER_PREFIX + sessionKey + "-uploadInfo");
+	        	UploadInfo uploadInfo = (UploadInfo) session.getAttribute(WebProcessor.ADAPTER_PREFIX + sessionKey + "-uploadInfo");
+	            //UploadInfo uploadInfo  = uploadInfoList.get(id);
+	            if (uploadInfo != null && uploadInfo.isInProgress()) {
+	            
+	                double p = uploadInfo.getBytesRead() / uploadInfo.getTotalSize();
+	
+	                progress = p + "";
+	                float total = uploadInfo.getTotalSize();
+	                float read = uploadInfo.getBytesRead();
+	                int iProgress = (int) Math.ceil((read / total) * 100);
+	                if (iProgress < 100) {
+	                    progress = Integer.toString(iProgress);
+	                } else {
+	                    uploadInfo.setStatus("completed");
+	                    progress = "100";
+	                }
+	                if (LOGGER.isDebugEnabled()) {
+	                    LOGGER.debug("Bytes total: " + uploadInfo.getTotalSize());
+	                    LOGGER.debug("Bytes read: " + uploadInfo.getBytesRead());
+	                    LOGGER.debug("elapsed time: " + uploadInfo.getElapsedTime());
+	                    LOGGER.debug("status: " + uploadInfo.getStatus());
+	                    LOGGER.debug("Percent completed: " + Math.ceil((read / total) * 100));
+	                }
+	            } else {
+	                progress = "100";
+	            }
+	            found = true;
+	        } else {
+	            //if session info is not found for some reason loop (could be due to a delay) and if eventually not found after some retries return 100  for safety which allows to exit
+	            //javascript polling of progress info
+	        	try {
+					Thread.sleep(500);
+					retries ++;
+				} catch (InterruptedException e) {
+					// What to do?
+				}
+	            progress = "0";
+	        }
+        }
+        
+        if (!found) { // end of max 3 retries... 
+        	progress = "100";
         }
         // XFormsSessionManager manager = (XFormsSessionManager) session.getAttribute(XFormsSessionManager.XFORMS_SESSION_MANAGER);
         // XFormsSession xFormsSession = manager.getWebProcessor(sessionKey);
@@ -263,27 +280,20 @@ public class FluxFacade {
 
 
         EventQueue eventQueue = null;
-        if (webProcessor != null) {
-            FluxProcessor processor = (FluxProcessor) webProcessor;
-            eventQueue = processor.getEventQueue();
-            XMLEvent progressEvent = eventQueue.add("upload-progress-event", id, "upload");
-            eventQueue.addProperty(progressEvent, "progress", progress);
+        FluxProcessor processor = (FluxProcessor) webProcessor;
+        eventQueue = processor.getEventQueue();
+        XMLEvent progressEvent = eventQueue.add("upload-progress-event", id, "upload");
+        eventQueue.addProperty(progressEvent, "progress", progress);
 
-            List<XMLEvent> origEvents = eventQueue.getEventList();
-            List<XMLEvent> eventList = new ArrayList<XMLEvent>();
+        List<XMLEvent> origEvents = eventQueue.getEventList();
+        List<XMLEvent> eventList = new ArrayList<XMLEvent>();
 
-            for (XMLEvent xmlEvent : origEvents) {
-                eventList.add(xmlEvent);
-            }
-            eventQueue.flush();
-            return eventList;
-            //eventQueue.flush();
-        } else {
-            eventQueue = new EventQueue();
-            XMLEvent progressEvent = eventQueue.add("upload-progress-event", id, "upload");
-            eventQueue.addProperty(progressEvent, "progress", progress);
-            return eventQueue.getEventList();
+        for (XMLEvent xmlEvent : origEvents) {
+            eventList.add(xmlEvent);
         }
+        eventQueue.flush();
+        return eventList;
+        //eventQueue.flush();
     }
 
     /**

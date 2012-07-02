@@ -414,7 +414,7 @@ public class Container {
      */
     public boolean dispatch(EventTarget eventTarget, String eventType, Object info) throws XFormsException {
         if(LOGGER.isDebugEnabled()){
-            LOGGER.debug("dispatching event '" + eventType + "' to target '" + DOMUtil.getCanonicalPath((Node) eventTarget) + "'");
+            LOGGER.debug("dispatching event '" + eventType + "' to target '" + DOMUtil.getCanonicalPath((Node) eventTarget) + "' info '" + info +"'" );
         }
         return dispatch(eventTarget, eventType, info, true, true);
     }
