@@ -5,8 +5,6 @@
 
 package de.betterform.xml.xforms.model;
 
-import java.util.Map;
-
 import de.betterform.xml.dom.DOMUtil;
 import de.betterform.xml.xforms.model.bind.DeclarationView;
 import de.betterform.xml.xforms.model.bind.LocalUpdateView;
@@ -16,6 +14,7 @@ import de.betterform.xml.xforms.model.bind.impl.DeclarationViewImpl;
 import de.betterform.xml.xforms.model.bind.impl.LocalUpdateViewImpl;
 import de.betterform.xml.xforms.model.bind.impl.RefreshViewImpl;
 import de.betterform.xml.xforms.model.bind.impl.StateChangeViewImpl;
+import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;

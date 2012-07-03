@@ -659,17 +659,27 @@ public class Container {
         }
 
         for (int i = 0; i < nrOfModels; i++) {
+<<<<<<< HEAD
         	boolean isCompatible=true;
             model = (Model) this.models.get(i);
             model.init();
 
         	if (i == 0) {
+=======
+        	boolean isCompatible= true;
+            model = (Model) this.models.get(i);
+            model.init();
+
+            if (i == 0) {
+>>>>>>> refs/remotes/upstream/development
 	            isCompatible = checkVersionCompatibility();
+
         	}
 
             if(!(isCompatible)){
                 return;
             }
+
             Initializer.initializeModelConstructActionElements(model, model.getElement());
 	        dispatch(model.getTarget(), XFormsEventNames.MODEL_CONSTRUCT, null);
         }
@@ -832,6 +842,8 @@ public class Container {
         for (int i = 0; i < models.size(); i++) {
             Element modelElement = models.get(i).getElement();
             versionString = XFormsElement.getXFormsAttribute(modelElement, "version");
+
+
             if (i == 0) {
                 //Default Model
                 this.version = checkForValidVersion(versionString);
@@ -849,13 +861,36 @@ public class Container {
                     HashMap contextInfo = new HashMap();
                     contextInfo.put("error-information", "Incompatible version setting: " + versionString + " on model: " + DOMUtil.getCanonicalPath(modelElement));
 
-					dispatch((EventTarget)defaultModelElement,XFormsEventNames.VERSION_EXCEPTION,contextInfo);
+                    dispatch((EventTarget)defaultModelElement,XFormsEventNames.VERSION_EXCEPTION,contextInfo);
                     return false;
                 }
             }
         }
         LOGGER.info("running XForms version" + this.version);
         return true;
+    }
+    
+    protected String checkForValidVersion(String versionAttribute) {
+        String versionTmp = null;
+
+        //default setting for betterForm currently
+        if (versionAttribute == null || versionAttribute.equals("")) {
+            return XFORMS_1_1;
+
+        } else {
+            String[] versionArray = versionAttribute.trim().split(" ");
+
+            for (int j = 0; j < versionArray.length; j++) {
+                if (XFORMS_1_1.equals(versionArray[j])) {
+                    return XFORMS_1_1;
+                } else if(XFORMS_1_0.equals(versionArray[j])) {
+                    versionTmp = XFORMS_1_0;
+                    //be nice an search further on for 1.1
+                }
+            }
+        }
+
+        return versionTmp;
     }
 
     protected String checkForValidVersion(String versionAttribute) {

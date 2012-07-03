@@ -84,7 +84,6 @@ public class FluxProcessor extends WebProcessor {
         this.root.addEventListener(BetterFormEventNames.INDEX_CHANGED, this, true);
         this.root.addEventListener(BetterFormEventNames.SWITCH_TOGGLED, this, true);
         this.root.addEventListener(BetterFormEventNames.AVT_CHANGED, this, true);
-
     }
 
 

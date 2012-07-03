@@ -5,9 +5,8 @@
 
 package de.betterform.xml.xforms.model.bind.impl;
 
-import java.util.Map;
-
 import de.betterform.xml.xforms.model.bind.DeclarationView;
+import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
