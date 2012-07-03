@@ -2,7 +2,13 @@
 <html xmlns:xf="http://www.w3.org/2002/xforms"
       xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <title>Text input control</title>
+        <title>Upload control which uses base64 for content encoding</title>
+<!--
+  ~ Copyright (c) 2012. betterFORM Project - http://www.betterform.de
+  ~ Licensed under the terms of BSD License
+-->
+
+
     </head>
     <body>
         <div class="description">
@@ -27,7 +33,7 @@
         </div>
         <div class="sample">
             <div class="markup">
-                <xf:model id="model-1">
+                <xf:model>
                     <xf:instance id="instance-1" xmlns="">
                         <data>
                             <upload1 constraint="true" readonly="false" required="true" relevant="true">

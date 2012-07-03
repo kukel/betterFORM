@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:xf="http://www.w3.org/2002/xforms"
-      xmlns:ev="http://www.w3.org/2001/xml-events"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-      xmlns:j2ee="http://java.sun.com/xml/ns/j2ee"
-
-        >
+      xmlns:xf="http://www.w3.org/2002/xforms">
     <head>
-
-
         <title>Custom Time Control</title>
+        <!--
+        ~ Copyright (c) 2012. betterFORM Project - http://www.betterform.de
+        ~ Licensed under the terms of BSD License
+        -->
+
 		<script type="text/javascript">
 			  var initLoad = dojo.subscribe("/xf/ready", function() {
 				dojo.unsubscribe(initLoad);
@@ -30,9 +27,9 @@
 						<input></input>
 					</data>
                 </xf:instance>
-				<xf:bind nodeset="input[1]" type="date"/>
-				<xf:bind nodeset="input[2]" type="dateTime"/>
-				<xf:bind nodeset="input[3]" type="time"/>
+				<xf:bind nodeset="input[1]" type="xf:date"/>
+				<xf:bind nodeset="input[2]" constraint="false()"/>
+				<xf:bind nodeset="input[3]" type="xf:time"/>
             </xf:model>
         </div>
 
@@ -47,7 +44,11 @@
 				<xf:label>DateTime: </xf:label>
 			</xf:input>
 -->
-			<xf:input ref="input[3]" appearance="bf:Time">
+			<xf:input ref="input[2]" >
+				<xf:label>Test:</xf:label>
+				<xf:alert>No valid date time</xf:alert>
+			</xf:input>
+			<xf:input ref="input[3]" appearance="bf:dropdowntime">
 				<xf:label>Time:</xf:label>
 				<xf:alert>No valid date time</xf:alert>
 			</xf:input>
@@ -55,6 +56,10 @@
 				<xf:label>Time Result:</xf:label>
 				<xf:alert>No valid date time</xf:alert>
 			</xf:output>
+            <xf:trigger>
+                <xf:label>Set time to 23:23:23</xf:label>
+                <xf:setvalue ref="input[3]" value="'23:23:23'"/>
+            </xf:trigger>
         </xf:group>
     </body>
 </html>

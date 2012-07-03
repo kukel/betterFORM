@@ -1,11 +1,12 @@
 <!--
-  ~ Copyright (c) 2011. betterForm Project - http://www.betterform.de
+  ~ Copyright (c) 2012. betterFORM Project - http://www.betterform.de
   ~ Licensed under the terms of BSD License
   -->
 
 <project name="Installer-eXist" default="create-XRX" basedir=".">
-    <property name="eXist.1.4.src" value="http://downloads.sourceforge.net/project/exist/Stable/1.4.1/eXist-setup-1.4.1-rev15155.jar"/>
-    <property name="eXist.1.5.src" value="http://downloads.sourceforge.net/project/exist/Stable/1.4.1/eXist-setup-1.4.1-rev15155.jar"/>
+    <property name="eXist.1.4.src" value="http://downloads.sourceforge.net/project/exist/Stable/1.4.2/eXist-setup-1.4.2dev-rev15584.jar"/>
+                                          <!-- http://downloads.sourceforge.net/project/exist/Stable/1.4.1/eXist-setup-1.4.1-rev15155.jar"/> -->
+    <property name="eXist.1.5.src" value="http://downloads.sourceforge.net/project/exist/Stable/1.4.2/eXist-setup-1.4.2dev-rev15584.jar"/>
 
     <property name="eXist.db.user" value="betterFORM"/>
     <property name="eXist.db.passwd" value="Tha0xeiC8a"/>
@@ -94,10 +95,6 @@
              manifest="${basedir}/src/main/resources/MANIFEST.MF"/>
     </target>
 
-    <target name="setupBetterFORMContext">
-
-    </target>
-
     <target name="create-XRX" depends="get-eXist">
         <echo>
             __== Creating XRX-environment for Installer ==__
@@ -151,11 +148,13 @@
             <property name="eXist.db.passwd" value="${eXist.db.passwd}"/>
         </ant>
 
+	<!--
         <ant antfile="${xrx.dir}/build-XRX.xml" target="install-editor" inheritall="false" usenativebasedir="true">
             <property name="eXist.home" value="${installer.target}/bf-XRX/"/>
             <property name="eXist.db.user" value="${eXist.db.user}"/>
             <property name="eXist.db.passwd" value="${eXist.db.passwd}"/>
         </ant>
+	-->
 
         <ant antfile="${xrx.dir}/build-utils-eXist.xml" target="stop-eXist">
             <property name="eXist.home" value="${installer.target}/bf-XRX/"/>
@@ -174,6 +173,11 @@
         <copy todir="${installer.target}/bf-XRX" overwrite="true">
             <fileset dir="${installer.target}/bf-XRX/installer/scripts" includes="build.sh build.bat"/>
         </copy>
+
+        <!-- Copy wrapper.conf template refuses to be overriden by installer -->
+        <delete file="${installer.target}/bf-XRX/tools/wrapper/conf/wrapper.conf"/>
+        <copy tofile="${installer.target}/bf-XRX/tools/wrapper/conf/wrapper.conf" file="${installer.target}/bf-XRX/tools/wrapper/conf/wrapper.conf.install" overwrite="true"/>
+
 
 	    <unzip src="${basedir}/lib/betterFORM-Launcher-1.4-xrx-distribution.zip" dest="${installer.target}/bf-XRX"/>
         <move file="${installer.target}/bf-XRX/betterFORM-Launcher-1.4.jar" tofile="${installer.target}/bf-XRX/betterFORM.jar"/>

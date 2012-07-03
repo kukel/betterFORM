@@ -5,6 +5,12 @@
         bf:evalAVTs="class style">
     <head>
         <title>AVT Theme Switcher</title>
+<!--
+  ~ Copyright (c) 2012. betterFORM Project - http://www.betterform.de
+  ~ Licensed under the terms of BSD License
+-->
+
+
         <style type="text/css">
             @import "../../bfResources/scripts/dijit/themes/tundra/tundra.css";
             @import "../../bfResources/scripts/dijit/themes/soria/soria.css";
@@ -53,15 +59,14 @@
         ]-->
         <div class="sample">
             <div class="markup">
-                <code>
-<html xmlns:xf="http://www.w3.org/2002/xforms"
+                <code><html xmlns:xf="http://www.w3.org/2002/xforms"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:bf="http://betterform.sourceforge.net/xforms"
         bf:evalAVTs="class style">
     <body class="{theme}">...</body>   
 </html>
                 </code>
-                <xf:model id="model-1">
+                <xf:model>
                     <code>
 <xf:instance id="instance-1" xmlns="">
     <avt>
@@ -92,7 +97,7 @@
         <xf:label>a sample trigger</xf:label>
         <xf:message>button clicked</xf:message>
     </xf:trigger>
-    <xf:input ref="theme">
+    <xf:input id="input1" ref="theme">
         <xf:label>current theme</xf:label>
     </xf:input>
 </xf:group>

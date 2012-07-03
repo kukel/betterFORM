@@ -1,0 +1,11 @@
+clean
+compile
+create-single-jar
+create-war
+deploy
+deploy-exploded
+deploy-forms
+deploy-test-resources
+doc
+exploded-webapp-base
+prepare

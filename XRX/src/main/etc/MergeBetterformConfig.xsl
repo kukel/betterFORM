@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2011. betterForm Project - http://www.betterform.de
+  ~ Copyright (c) 2012. betterFORM Project - http://www.betterform.de
   ~ Licensed under the terms of BSD License
   -->
 
@@ -27,10 +27,4 @@
     <xsl:template match="property[@name='initLogging']/@value" priority="10">
         <xsl:attribute name="value">false</xsl:attribute>
     </xsl:template>
-
-
-    <xsl:template match="property[@name='error.page']/@value" priority="10">
-        <xsl:attribute name="value">betterform/xquery/xferror.xql</xsl:attribute>
-    </xsl:template>
-
 </xsl:stylesheet>

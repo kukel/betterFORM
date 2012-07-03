@@ -125,4 +125,5 @@ public interface BetterFormEventNames {
     String AVT_CHANGED = "betterform-AVT-changed";
     String INSTANCE_CREATED="betterform-instance-created";
     static final String MODEL_REMOVED = "betterform-model-removed";
-}                                                   
+
+}

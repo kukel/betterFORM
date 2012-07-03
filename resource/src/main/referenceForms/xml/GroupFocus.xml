@@ -4,6 +4,12 @@
       xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>Group Focus</title>
+<!--
+  ~ Copyright (c) 2012. betterFORM Project - http://www.betterform.de
+  ~ Licensed under the terms of BSD License
+-->
+
+
         <style type="text/css">
             .bf #observedGroup .xfInput .xfValue {
                 width:50px;
@@ -49,7 +55,7 @@
         <div class="sample">
             <div class="markup">
                 <code>
-<xf:model id="model-1">
+<xf:model id="model-child">
     <xf:instance>
         <data xmlns=""/>
     </xf:instance>
@@ -62,7 +68,7 @@
 
                 </code>
                 <code class="ui">
-<xf:input ref=".">
+<xf:input id="input1" ref=".">
     <xf:label>Input before observerd Group</xf:label>
 </xf:input>
 <xf:group id="observedGroup" appearance="minimal">
@@ -85,12 +91,12 @@
         <p class="caseTwo">Input 2 has focus</p>
     </xf:case>
 </xf:switch>
-<xf:input ref=".">
+<xf:input id="input2" ref=".">
     <xf:label>Input after observed Group</xf:label>
 </xf:input>
 
 <!--Action within UI listening on Model action-->
-<xf:action ev:observer="model-1" ev:event="xforms-ready">
+<xf:action ev:observer="model-child" ev:event="xforms-ready">
     <xf:setfocus control="inputCase1"/>
 </xf:action>
 

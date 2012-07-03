@@ -1,15 +1,15 @@
 /*
- * Copyright (c) 2011. betterForm Project - http://www.betterform.de
+ * Copyright (c) 2012. betterFORM Project - http://www.betterform.de
  * Licensed under the terms of BSD License
  */
 
 package de.betterform.connector.xslt;
 
-import junit.framework.TestCase;
 import de.betterform.xml.dom.DOMComparator;
 import de.betterform.xml.events.DOMEventNames;
 import de.betterform.xml.xforms.XFormsProcessorImpl;
 import de.betterform.xml.xpath.impl.saxon.XPathUtil;
+import junit.framework.TestCase;
 import org.w3c.dom.Document;
 
 /**
@@ -73,17 +73,5 @@ public class XSLTSubmissionHandlerTest extends TestCase {
         this.xformsProcesssorImpl.shutdown();
         this.xformsProcesssorImpl = null;
     }
-
-
-    private DOMComparator getComparator() {
-        DOMComparator comparator = new DOMComparator();
-        comparator.setIgnoreNamespaceDeclarations(true);
-        comparator.setIgnoreWhitespace(true);
-        comparator.setIgnoreComments(true);
-        comparator.setErrorHandler(new DOMComparator.SystemErrorHandler());
-
-        return comparator;
-    }
-
 
 }
