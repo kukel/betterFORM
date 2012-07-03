@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011. betterForm Project - http://www.betterform.de
+ * Copyright (c) 2012. betterFORM Project - http://www.betterform.de
  * Licensed under the terms of BSD License
  */
 
@@ -19,7 +19,6 @@ import de.betterform.xml.events.XFormsEventNames;
 import de.betterform.xml.events.XMLEvent;
 import de.betterform.xml.ns.NamespaceConstants;
 import de.betterform.xml.xforms.XFormsElement;
-import de.betterform.xml.xforms.XFormsProcessor;
 import de.betterform.xml.xforms.exception.XFormsException;
 import de.betterform.xml.xforms.ui.BindingElement;
 import org.apache.commons.logging.Log;
@@ -81,9 +80,9 @@ public class FluxProcessor extends WebProcessor {
         this.root.addEventListener(BetterFormEventNames.ID_GENERATED, this, true);
         this.root.addEventListener(BetterFormEventNames.ITEM_INSERTED, this, true);
         this.root.addEventListener(BetterFormEventNames.ITEM_DELETED, this, true);
+        this.root.addEventListener(BetterFormEventNames.ITEM_CHANGED, this, true);
         this.root.addEventListener(BetterFormEventNames.INDEX_CHANGED, this, true);
         this.root.addEventListener(BetterFormEventNames.SWITCH_TOGGLED, this, true);
-        this.root.addEventListener(BetterFormEventNames.SCRIPT_ACTION, this, true);
         this.root.addEventListener(BetterFormEventNames.AVT_CHANGED, this, true);
 
     }
@@ -283,9 +282,9 @@ public class FluxProcessor extends WebProcessor {
             this.root.removeEventListener(BetterFormEventNames.ID_GENERATED, this, true);
             this.root.removeEventListener(BetterFormEventNames.ITEM_INSERTED, this, true);
             this.root.removeEventListener(BetterFormEventNames.ITEM_DELETED, this, true);
+            this.root.removeEventListener(BetterFormEventNames.ITEM_CHANGED, this, true);
             this.root.removeEventListener(BetterFormEventNames.INDEX_CHANGED, this, true);
             this.root.removeEventListener(BetterFormEventNames.SWITCH_TOGGLED, this, true);            
-            this.root.removeEventListener(BetterFormEventNames.SCRIPT_ACTION, this, true);
             this.root.removeEventListener(BetterFormEventNames.AVT_CHANGED, this, true);
         }
 

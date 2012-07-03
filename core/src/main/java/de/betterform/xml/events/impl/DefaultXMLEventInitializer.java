@@ -1,13 +1,13 @@
 /*
- * Copyright (c) 2011. betterForm Project - http://www.betterform.de
+ * Copyright (c) 2012. betterFORM Project - http://www.betterform.de
  * Licensed under the terms of BSD License
  */
 
 package de.betterform.xml.events.impl;
 
+import de.betterform.xml.events.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import de.betterform.xml.events.*;
 
 import java.util.HashMap;
 
@@ -90,6 +90,7 @@ public class DefaultXMLEventInitializer implements XMLEventInitializer {
         INITIALIZATION_RULES.put(BetterFormEventNames.ID_GENERATED, new boolean[]{true, false, true});
         INITIALIZATION_RULES.put(BetterFormEventNames.ITEM_INSERTED, new boolean[]{true, false, true});
         INITIALIZATION_RULES.put(BetterFormEventNames.ITEM_DELETED, new boolean[]{true, false, true});
+        INITIALIZATION_RULES.put(BetterFormEventNames.ITEM_CHANGED, new boolean[]{true, false, true});
         INITIALIZATION_RULES.put(BetterFormEventNames.INDEX_CHANGED, new boolean[]{true, false, true});
         INITIALIZATION_RULES.put(BetterFormEventNames.SWITCH_TOGGLED, new boolean[]{true, false, true});
         INITIALIZATION_RULES.put(BetterFormEventNames.CUSTOM_MIP_TOGGLED, new boolean[]{true, false, true});

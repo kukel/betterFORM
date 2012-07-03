@@ -1,6 +1,6 @@
 
 /*
- * Copyright (c) 2011. betterForm Project - http://www.betterform.de
+ * Copyright (c) 2012. betterFORM Project - http://www.betterform.de
  * Licensed under the terms of BSD License
  */
 package de.betterform.xml.xforms;
@@ -17,7 +17,7 @@ import org.w3c.dom.events.EventTarget;
 import org.w3c.xforms.XFormsModelElement;
 import org.xml.sax.InputSource;
 
-import java.io.*;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +63,7 @@ public abstract class AbstractProcessorDecorator implements XFormsProcessor, Eve
      */
     protected boolean isEventUsed(String eventName) {
         List eventsUsed = ((XFormsProcessorImpl) xformsProcessor).getEventList();
-        if (eventOptimizationIsDisabeld() || eventsUsed.contains(eventName)) {
+        if (eventOptimizationIsDisabled() || eventsUsed.contains(eventName)) {
             return true;
         }
         return false;
@@ -120,9 +120,7 @@ public abstract class AbstractProcessorDecorator implements XFormsProcessor, Eve
         //betterform notification event must be passed always
         this.root.addEventListener(BetterFormEventNames.LOAD_URI, this, true);
 
-        if (isEventUsed(XFormsEventNames.LINK_EXCEPTION)) {
-            this.root.addEventListener(XFormsEventNames.LINK_EXCEPTION, this, true);
-        }
+        this.root.addEventListener(XFormsEventNames.LINK_EXCEPTION, this, true);
         if (isEventUsed(XFormsEventNames.LINK_ERROR)) {
             this.root.addEventListener(XFormsEventNames.LINK_ERROR, this, true);
         }
@@ -149,9 +147,9 @@ public abstract class AbstractProcessorDecorator implements XFormsProcessor, Eve
         this.root.addEventListener(XFormsEventNames.SUBMIT_DONE, this, true);
         this.root.addEventListener(XFormsEventNames.SUBMIT_ERROR, this, true);
 
-        if (isEventUsed(XFormsEventNames.VERSION_EXCEPTION)) {
+        //if (isEventUsed(XFormsEventNames.VERSION_EXCEPTION)) {
             this.root.addEventListener(XFormsEventNames.VERSION_EXCEPTION, this, true);
-        }
+        //}
         if (isEventUsed(XFormsEventNames.VALUE_CHANGED)) {
             this.root.addEventListener(XFormsEventNames.VALUE_CHANGED, this, true);
         }
@@ -175,6 +173,8 @@ public abstract class AbstractProcessorDecorator implements XFormsProcessor, Eve
         }
 
         this.root.addEventListener(BetterFormEventNames.EXCEPTION, this, true);
+        this.root.addEventListener(BetterFormEventNames.SCRIPT_ACTION, this, true);
+
     }
 
     /**
@@ -223,7 +223,7 @@ public abstract class AbstractProcessorDecorator implements XFormsProcessor, Eve
             this.root.removeEventListener(BetterFormEventNames.INSTANCE_CREATED, this, true);
             this.root.removeEventListener(BetterFormEventNames.MODEL_REMOVED, this, true);
             this.root.removeEventListener(BetterFormEventNames.EXCEPTION, this, true);
-            
+            this.root.removeEventListener(BetterFormEventNames.SCRIPT_ACTION, this, true);            
             this.root.removeEventListener(BetterFormEventNames.CUSTOM_MIP_TOGGLED, this, true);
             
             this.root = null;
@@ -338,7 +338,7 @@ public abstract class AbstractProcessorDecorator implements XFormsProcessor, Eve
     }
 
 
-    protected boolean eventOptimizationIsDisabeld() {
+    protected boolean eventOptimizationIsDisabled() {
         return configuration.getProperty("betterform.event-optimization-enabled").equals("false");
     }
 

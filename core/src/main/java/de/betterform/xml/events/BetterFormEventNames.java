@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011. betterForm Project - http://www.betterform.de
+ * Copyright (c) 2012. betterFORM Project - http://www.betterform.de
  * Licensed under the terms of BSD License
  */
 
@@ -76,6 +76,11 @@ public interface BetterFormEventNames {
      * betterForm notification event constant.
      */
     String ITEM_DELETED = "betterform-item-deleted";
+
+    /**
+     * betterForm notification event constant.
+     */
+    String ITEM_CHANGED = "betterform-item-changed";
 
     /**
      * betterForm notification event constant.
