@@ -28,7 +28,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.events.EventTarget;
 
 import java.text.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -130,7 +129,7 @@ public class UIElementStateUtil {
     }
 
     public static boolean[] getModelItemProperties(ModelItem modelItem) {
-        boolean[] properties = {true, false, false, false, false};
+        boolean[] properties = {true, false, false, false};
         if (modelItem != null) {
             properties[VALID] = modelItem.isValid();
             properties[READONLY] = modelItem.isReadonly();
@@ -140,7 +139,7 @@ public class UIElementStateUtil {
 
         return properties;
     }
-    
+
     public static String getDefaultDatatype(Element element) {
         String prefix = NamespaceResolver.getPrefix(element, NamespaceConstants.XMLSCHEMA_NS);
         return prefix != null ? prefix + ":string" : "string";
@@ -290,7 +289,6 @@ public class UIElementStateUtil {
                 context.put("schemaValue", state.getSchemaValue());
             }
         }
-        
         if (hasTypeChanged(currentType, newType)) {
             context.put(UIElementState.TYPE_ATTRIBUTE, newType);
         }

@@ -164,7 +164,7 @@ public abstract class AbstractProcessorDecorator implements XFormsProcessor, Eve
         }
         this.root.addEventListener(BetterFormEventNames.HIDE, this, true);
         this.root.addEventListener(BetterFormEventNames.SHOW, this, true);
-        
+
         this.root.addEventListener(BetterFormEventNames.CUSTOM_MIP_TOGGLED, this, true);
 
         if(isDebugOn()){

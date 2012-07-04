@@ -7,12 +7,13 @@ package de.betterform.xml.xforms.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+
+import junit.framework.TestCase;
 
 /**
  * Model item tests.
@@ -233,14 +234,14 @@ public class ModelItemChangeTest extends TestCase {
     
     private void assertCustomMIPChange(boolean localBefore, boolean localAfter, boolean expected) {
     	
-    	Map<String, Boolean> custom = new HashMap<String, Boolean>();
-    	custom.put("diff", localBefore);
+    	Map<String, String> custom = new HashMap<String, String>();
+    	custom.put("diff", Boolean.toString(localBefore));
     	
         this.modelItem.getLocalUpdateView().setCustomMIPValues(custom);
         this.modelItem.getStateChangeView().reset();
 
-        Map<String, Boolean> custom2 = new HashMap<String, Boolean>();
-    	custom2.put("diff", localAfter);
+        Map<String, String> custom2 = new HashMap<String, String>();
+    	custom2.put("diff", Boolean.toString(localAfter));
     	
         this.modelItem.getLocalUpdateView().setCustomMIPValues(custom2);
         assertEquals(expected, this.modelItem.getStateChangeView().hasCustomMIPChanged("diff"));

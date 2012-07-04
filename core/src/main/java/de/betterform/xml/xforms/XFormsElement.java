@@ -18,7 +18,7 @@ import de.betterform.xml.xforms.xpath.saxon.function.XPathFunctionContext;
 import de.betterform.xml.xpath.XPathUtil;
 import de.betterform.xml.xpath.impl.saxon.XPathCache;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.commons.logging.Log;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -245,7 +245,7 @@ public abstract class XFormsElement implements XFormsConstants {
     	 for (int i = 0; i < nnm.getLength(); i++) {
 			Node attribute = nnm.item(i);
 		   	if (NamespaceConstants.BETTERFORM_NS.equals(attribute.getNamespaceURI()) ) {
-		   		bfAttributes.put(attribute.getPrefix() + StringUtils.capitaliseAllWords(attribute.getLocalName()), attribute.getTextContent());
+		   		bfAttributes.put(attribute.getPrefix() + WordUtils.capitalize(attribute.getLocalName()), attribute.getTextContent());
 		   	}
 		}
     	 return bfAttributes;

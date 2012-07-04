@@ -92,7 +92,6 @@ public class BoundElementState implements UIElementState {
             this.currentProperties = properties;
 
             if (modelItem != null) {
-            	
                 // set types
                 if (this.handleTypes) {
                     String datatype = UIElementStateUtil.getDatatype(modelItem, this.owner.getElement());
@@ -237,7 +236,7 @@ public class BoundElementState implements UIElementState {
             // reset automatically to avoid incosistencies
             this.dispatchValueChange = true;
         }
-        
+
         //store properties and value
         this.currentProperties = properties;
         this.currentValue = value;
@@ -306,7 +305,6 @@ public class BoundElementState implements UIElementState {
         UIElementStateUtil.setStateAttribute(this.state, READONLY_PROPERTY, String.valueOf(properties[UIElementStateUtil.READONLY]));
         UIElementStateUtil.setStateAttribute(this.state, REQUIRED_PROPERTY, String.valueOf(properties[UIElementStateUtil.REQUIRED]));
         UIElementStateUtil.setStateAttribute(this.state, ENABLED_PROPERTY, String.valueOf(properties[UIElementStateUtil.ENABLED]));
-        
     }
 
 

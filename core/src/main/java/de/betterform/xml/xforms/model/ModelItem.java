@@ -172,5 +172,5 @@ public interface ModelItem {
     public Model getModel();
 
     public String toString();
-    
+
 }

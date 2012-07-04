@@ -184,15 +184,14 @@ public class ModelItemPropertiesTest extends TestCase {
     
     public void testCustomMIP() throws Exception {
     	
-    	
-    	Map<String, Boolean> customMIPValues = new HashMap<String, Boolean>();
-    	customMIPValues.put("diff", true);
+    	Map<String, String> customMIPValues = new HashMap<String, String>();
+    	customMIPValues.put("diff", "true");
         this.modelItem.getLocalUpdateView().setCustomMIPValues(customMIPValues);
-        assertEquals(true, (boolean) this.modelItem.getLocalUpdateView().getCustomMIPValues().get("diff"));
+        assertEquals("true", this.modelItem.getLocalUpdateView().getCustomMIPValues().get("diff"));
 
-    	customMIPValues.put("diff", false);
+    	customMIPValues.put("diff", "false");
         this.modelItem.getLocalUpdateView().setCustomMIPValues(customMIPValues);
-        assertEquals(false, (boolean) this.modelItem.getLocalUpdateView().getCustomMIPValues().get("diff"));  
+        assertEquals("false", this.modelItem.getLocalUpdateView().getCustomMIPValues().get("diff"));  
         
     }
 

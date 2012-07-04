@@ -659,19 +659,11 @@ public class Container {
         }
 
         for (int i = 0; i < nrOfModels; i++) {
-<<<<<<< HEAD
-        	boolean isCompatible=true;
-            model = (Model) this.models.get(i);
-            model.init();
-
-        	if (i == 0) {
-=======
         	boolean isCompatible= true;
             model = (Model) this.models.get(i);
             model.init();
 
             if (i == 0) {
->>>>>>> refs/remotes/upstream/development
 	            isCompatible = checkVersionCompatibility();
 
         	}
@@ -870,29 +862,6 @@ public class Container {
         return true;
     }
     
-    protected String checkForValidVersion(String versionAttribute) {
-        String versionTmp = null;
-
-        //default setting for betterForm currently
-        if (versionAttribute == null || versionAttribute.equals("")) {
-            return XFORMS_1_1;
-
-        } else {
-            String[] versionArray = versionAttribute.trim().split(" ");
-
-            for (int j = 0; j < versionArray.length; j++) {
-                if (XFORMS_1_1.equals(versionArray[j])) {
-                    return XFORMS_1_1;
-                } else if(XFORMS_1_0.equals(versionArray[j])) {
-                    versionTmp = XFORMS_1_0;
-                    //be nice an search further on for 1.1
-                }
-            }
-        }
-
-        return versionTmp;
-    }
-
     protected String checkForValidVersion(String versionAttribute) {
         String versionTmp = null;
 

@@ -82,7 +82,7 @@ public class XPathCache {
         throws XFormsException {
         return XPathUtil.getAsBoolean(evaluate(context.getNodeset(), context.getPosition(), xpathString, context.getPrefixMapping(), context.getXPathFunctionContext()), 1);
     }
-    
+
     public Boolean evaluateAsBoolean(List nodeset, int position, String xpathString, Map prefixMapping, XPathFunctionContext functionContext)
         throws XFormsException {
         return XPathUtil.getAsBoolean(evaluate(nodeset, position, xpathString, prefixMapping, functionContext), 1);
